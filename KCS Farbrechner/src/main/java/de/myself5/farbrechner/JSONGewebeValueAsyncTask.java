@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -50,7 +51,7 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
         mProgressDialog = new ProgressDialog(mActivity);
         mProgressDialog.setMessage(mDialogtext);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(true);
         mProgressDialog.show();
     }
 
@@ -59,28 +60,29 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
         String file = new String(afile[0]);
         File f = new File(file);
         if (f.exists() && !f.isDirectory()) {
-            BufferedReader input = null;
-            try {
-                FileInputStream fIn = new FileInputStream(file);
-                input = new BufferedReader(new InputStreamReader(fIn));
-                String line;
-                StringBuffer content = new StringBuffer();
-                char[] buffer = new char[1024];
-                int num;
-                while ((num = input.read(buffer)) > 0) {
-                    content.append(buffer, 0, num);
+                try {
+                    Log.e("FILE:", "Filepath" + file);
+                    FileReader fileReader = new FileReader(file);
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null)
+                        stringBuilder.append(line).append("\n");
+                    bufferedReader.close();
+                    fileReader.close();
+
+                    Log.e("ARRAY", "cts= " + stringBuilder.toString().trim());
+                    JSONObject obj = new JSONObject(stringBuilder.toString().trim());
+                    String value = obj.getString(mValue);
+                    return value;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                JSONObject obj = new JSONObject(content.toString());
-                String value = obj.getString(mValue);
-                return value;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
         return null;
     }
 

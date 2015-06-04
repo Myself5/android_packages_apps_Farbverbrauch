@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -51,7 +53,7 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         mProgressDialog = new ProgressDialog(mActivity);
         mProgressDialog.setMessage(mDialogtext);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(true);
         mProgressDialog.show();
     }
 
@@ -67,31 +69,30 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         String file = new String(afile[0]);
         File f = new File(file);
         Log.e("FILE:", "before if");
-        Log.e("FILE:", "Filepath" + file);
-        if (f.exists()) {
-            BufferedReader input = null;
+        Log.e("FILE:", "Filepath: " + file);
+        if (f.exists() && !f.isDirectory()) {
+            String[] arr = {};
                 try {
                     Log.e("FILE:", "Filepath" + file);
-                    FileInputStream fIn = new FileInputStream(file);
-                    input = new BufferedReader(new InputStreamReader(fIn));
+                    FileReader fileReader = new FileReader(file);
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    StringBuilder stringBuilder = new StringBuilder();
                     String line;
-                    Log.e("FILE:", "input");
-                    StringBuffer content = new StringBuffer();
-                    char[] buffer = new char[1024];
-                    int num;
-                    while ((num = input.read(buffer)) > 0) {
-                        content.append(buffer, 0, num);
-                    }
-                    Log.e("ARRAY", "cts= " + content.toString());
-                    JSONObject obj = new JSONObject(content.toString());
-                    JSONArray array = null;
-                    array = obj.getJSONArray(mArrayName);
-                    String[] arr = {};
+                    while ((line = bufferedReader.readLine()) != null)
+                        stringBuilder.append(line).append("\n");
+                    bufferedReader.close();
+                    fileReader.close();
+
+                    Log.e("ARRAY", "cts= " + stringBuilder.toString().trim());
+                    JSONObject obj = new JSONObject(stringBuilder.toString().trim());
+                    JSONArray array = obj.getJSONArray(mArrayName);
                     for (int i = 0; i < array.length(); i++) {
                         Log.e("ARRAY", "i= " + i);
+                        mProgressDialog.setProgress((i / array.length()) * 100);
                         arr = append(arr, array.getString(i));
                     }
-                    return arr;
+                        return arr;
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
