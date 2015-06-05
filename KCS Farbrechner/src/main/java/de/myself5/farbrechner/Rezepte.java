@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.util.concurrent.ExecutionException;
+
 
 public class Rezepte extends Fragment {
 
@@ -39,16 +42,28 @@ public class Rezepte extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_rezepte, container, false);
-        String[] REZEPTE = JSONHandler.getSelectionArray(getActivity(), "REZEPTE", MainActivity.FILE_PATH+"rezepte.json");
-        if (REZEPTE != null) {
-            mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
-            ArrayAdapter<String> adapter = null;
+        String[] REZEPTE = null;
+        File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
+        if (f.exists() && !f.isDirectory()) {
+            try {
+                REZEPTE = new JSONArrayAsyncTask(getActivity(), getActivity().getString(R.string.load_values), "REZEPTE").execute(MainActivity.FILE_PATH + "rezepte.json").get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (REZEPTE != null) {
+                mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
+                ArrayAdapter<String> adapter = null;
 
-            adapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_dropdown_item_1line, REZEPTE);
+                adapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_dropdown_item_1line, REZEPTE);
 
-            mRezepturen.setAdapter(adapter);
-            mRezepturen.setThreshold(1);
+                mRezepturen.setAdapter(adapter);
+                mRezepturen.setThreshold(1);
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }

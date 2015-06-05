@@ -10,10 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -53,7 +55,7 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         mProgressDialog = new ProgressDialog(mActivity);
         mProgressDialog.setMessage(mDialogtext);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(true);
+        mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
 
@@ -72,33 +74,49 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         Log.e("FILE:", "Filepath: " + file);
         if (f.exists() && !f.isDirectory()) {
             String[] arr = {};
-                try {
-                    Log.e("FILE:", "Filepath" + file);
-                    FileReader fileReader = new FileReader(file);
-                    BufferedReader bufferedReader = new BufferedReader(fileReader);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null)
-                        stringBuilder.append(line).append("\n");
-                    bufferedReader.close();
-                    fileReader.close();
+            try {
+                Log.e("FILE:", "Filepath" + file);
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null)
+                    stringBuilder.append(line).append("\n");
+                bufferedReader.close();
+                fileReader.close();
 
-                    Log.e("ARRAY", "cts= " + stringBuilder.toString().trim());
-                    JSONObject obj = new JSONObject(stringBuilder.toString().trim());
-                    JSONArray array = obj.getJSONArray(mArrayName);
-                    for (int i = 0; i < array.length(); i++) {
-                        Log.e("ARRAY", "i= " + i);
-                        mProgressDialog.setProgress((i / array.length()) * 100);
-                        arr = append(arr, array.getString(i));
-                    }
-                        return arr;
+                File logfile = new File(file + ".log");
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                // if file doesnt exists, then create it
+                if (!logfile.exists()) {
+                    logfile.createNewFile();
                 }
+                FileWriter fw = new FileWriter(logfile.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(stringBuilder.toString().trim());
+                bw.close();
+
+                Log.e("ARRAY", "cts= " + stringBuilder.toString().trim());
+                JSONObject obj = new JSONObject(stringBuilder.toString().trim());
+
+                Log.e("ARRAY", "AfterJSONO");
+                JSONArray array = obj.getJSONArray(mArrayName);
+                Log.e("ARRAY", "AfterJSONA");
+                for (int i = 0; i < array.length(); i++) {
+                    Log.e("ARRAY", "i= " + i);
+                    mProgressDialog.setProgress((i / array.length()) * 100);
+                    arr = append(arr, array.getString(i));
+                }
+                return arr;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
         return null;
     }
 
@@ -110,11 +128,5 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     @Override
     protected void onPostExecute(String[] result) {
         mProgressDialog.dismiss();
-        JSONHandler.jsonarray = result;
-    }
-
-    public static void loadJSON(Activity activ, String text, String array, String file) {
-
-        new JSONArrayAsyncTask(activ, text, array).execute(file);
     }
 }

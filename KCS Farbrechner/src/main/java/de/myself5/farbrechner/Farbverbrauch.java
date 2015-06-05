@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+
+import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 
 public class Farbverbrauch extends Fragment {
@@ -52,16 +56,27 @@ public class Farbverbrauch extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
         String[] GEWEBE = null;
-        GEWEBE = JSONHandler.getSelectionArray(getActivity(), "GEWEBE", MainActivity.FILE_PATH + "farbverbrauch.json");
-        if (GEWEBE != null) {
-            mGewebe = (AutoCompleteTextView) rootView.findViewById(R.id.gewebe);
-            ArrayAdapter<String> adapter = null;
+        File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
+        if (f.exists() && !f.isDirectory()) {
+            try {
+                GEWEBE = new JSONArrayAsyncTask(getActivity(), getActivity().getString(R.string.load_values), "GEWEBE").execute(MainActivity.FILE_PATH + "farbverbrauch.json").get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (GEWEBE != null) {
+                mGewebe = (AutoCompleteTextView) rootView.findViewById(R.id.gewebe);
+                ArrayAdapter<String> adapter = null;
 
-            adapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_dropdown_item_1line, GEWEBE);
+                adapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_dropdown_item_1line, GEWEBE);
 
-            mGewebe.setAdapter(adapter);
-            mGewebe.setThreshold(1);
+                mGewebe.setAdapter(adapter);
+                mGewebe.setThreshold(1);
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }
@@ -80,6 +95,10 @@ public class Farbverbrauch extends Fragment {
                         try {
                             calculate();
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
                     }
@@ -126,14 +145,14 @@ public class Farbverbrauch extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void calculate() throws JSONException {
+    public void calculate() throws JSONException, ExecutionException, InterruptedException {
         String gewebe = mGewebe.getText().toString();
-        float cm3M2 = Float.parseFloat(JSONHandler.getGewebeArrayValue(getActivity(), gewebe, "http://myself5.de/json/farbverbrauch.json"));
+        float cm3M2 = Float.parseFloat(new JSONGewebeValueAsyncTask(getActivity(), getActivity().getString(R.string.load_values), gewebe).execute(MainActivity.FILE_PATH + "farbverbrauch.json").get());
         int anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
         int drucklaenge = Integer.parseInt(mDruckklaengeCM.getText().toString());
         int druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());
         int bedruckungsgrad = Integer.parseInt(mBedruckungsgrad.getText().toString());
-        mDruckflaeche.setText(getString(R.string.druckflaecheM2) + ": " + (anzDrucke * drucklaenge * druckbreite / 10000));
+        mDruckflaeche.setText(getString(R.string.druckflaecheM2) + ": " + ((float) anzDrucke * drucklaenge * druckbreite / 10000));
         mFarbmengeCM3.setText(getString(R.string.farbmengeCM3) + ": " + (cm3M2 * anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
         mFarbmengeL.setText(getString(R.string.farbmengeL) + ": " + (cm3M2 * anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
     }
