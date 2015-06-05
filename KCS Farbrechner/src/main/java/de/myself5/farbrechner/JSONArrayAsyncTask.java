@@ -10,53 +10,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
-
-    //    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
-    private ProgressDialog mProgressDialog;
     private Activity mActivity;
-    private String mDialogtext;
     private String mArrayName;
 
-    public JSONArrayAsyncTask(Activity a, String dialogtext, String array) {
+    public JSONArrayAsyncTask(Activity a, String array) {
         mActivity = a;
-        mDialogtext = dialogtext;
         mArrayName = array;
     }
 
-//    @Override
-//    protected Dialog onCreateDialog(int id) {
-//        switch (id) {
-//            case DIALOG_DOWNLOAD_PROGRESS:
-//                mProgressDialog = new ProgressDialog(mActivity);
-//                mProgressDialog.setMessage(mActivity.getString(R.string.DownloadDialog));
-//                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                mProgressDialog.setCancelable(true);
-//                mProgressDialog.show();
-//                return mProgressDialog;
-//            default:
-//                return null;
-//        }
-//    }
-
     @Override
-    protected void onPreExecute() {
+    public void onPreExecute() {
         super.onPreExecute();
-        mProgressDialog = new ProgressDialog(mActivity);
-        mProgressDialog.setMessage(mDialogtext);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.show();
     }
 
     static <T> T[] append(T[] arr, T element) {
@@ -70,12 +41,9 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     protected String[] doInBackground(String... afile) {
         String file = new String(afile[0]);
         File f = new File(file);
-        Log.e("FILE:", "before if");
-        Log.e("FILE:", "Filepath: " + file);
         if (f.exists() && !f.isDirectory()) {
             String[] arr = {};
             try {
-                Log.e("FILE:", "Filepath" + file);
                 FileReader fileReader = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 StringBuilder stringBuilder = new StringBuilder();
@@ -85,26 +53,11 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
                 bufferedReader.close();
                 fileReader.close();
 
-                File logfile = new File(file + ".log");
-
-                // if file doesnt exists, then create it
-                if (!logfile.exists()) {
-                    logfile.createNewFile();
-                }
-                FileWriter fw = new FileWriter(logfile.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(stringBuilder.toString().trim());
-                bw.close();
-
-                Log.e("ARRAY", "cts= " + stringBuilder.toString().trim());
                 JSONObject obj = new JSONObject(stringBuilder.toString().trim());
 
-                Log.e("ARRAY", "AfterJSONO");
                 JSONArray array = obj.getJSONArray(mArrayName);
-                Log.e("ARRAY", "AfterJSONA");
                 for (int i = 0; i < array.length(); i++) {
-                    Log.e("ARRAY", "i= " + i);
-                    mProgressDialog.setProgress((i / array.length()) * 100);
+                    publishProgress("" + ((i * 100) / array.length()));
                     arr = append(arr, array.getString(i));
                 }
                 return arr;
@@ -120,13 +73,8 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         return null;
     }
 
+    @Override
     protected void onProgressUpdate(String... progress) {
         Log.d("ANDRO_ASYNC", progress[0]);
-        mProgressDialog.setProgress(Integer.parseInt(progress[0]));
-    }
-
-    @Override
-    protected void onPostExecute(String[] result) {
-        mProgressDialog.dismiss();
     }
 }

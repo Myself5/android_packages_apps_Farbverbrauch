@@ -1,12 +1,9 @@
 package de.myself5.farbrechner;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 public class Farbverbrauch extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    public static final String PREFS_NAME = "FarbrechnerPrefs";
 
     AutoCompleteTextView mGewebe;
     EditText mAnzDrucke;
@@ -59,7 +55,7 @@ public class Farbverbrauch extends Fragment {
         File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
         if (f.exists() && !f.isDirectory()) {
             try {
-                GEWEBE = new JSONArrayAsyncTask(getActivity(), getActivity().getString(R.string.load_values), "GEWEBE").execute(MainActivity.FILE_PATH + "farbverbrauch.json").get();
+                GEWEBE = new JSONArrayAsyncTask(getActivity(), "GEWEBE").execute(MainActivity.FILE_PATH + "farbverbrauch.json").get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -103,7 +99,6 @@ public class Farbverbrauch extends Fragment {
                         }
                     }
                 });
-
         return rootView;
     }
 
@@ -147,7 +142,7 @@ public class Farbverbrauch extends Fragment {
 
     public void calculate() throws JSONException, ExecutionException, InterruptedException {
         String gewebe = mGewebe.getText().toString();
-        float cm3M2 = Float.parseFloat(new JSONGewebeValueAsyncTask(getActivity(), getActivity().getString(R.string.load_values), gewebe).execute(MainActivity.FILE_PATH + "farbverbrauch.json").get());
+        float cm3M2 = Float.parseFloat(new JSONGewebeValueAsyncTask(getActivity(), gewebe).execute(MainActivity.FILE_PATH + "farbverbrauch.json").get());
         int anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
         int drucklaenge = Integer.parseInt(mDruckklaengeCM.getText().toString());
         int druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());

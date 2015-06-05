@@ -2,27 +2,12 @@ package de.myself5.farbrechner;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -40,21 +25,6 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
         mActivity = a;
         mDialogtext = dialogtext;
     }
-
-//    @Override
-//    protected Dialog onCreateDialog(int id) {
-//        switch (id) {
-//            case DIALOG_DOWNLOAD_PROGRESS:
-//                mProgressDialog = new ProgressDialog(mActivity);
-//                mProgressDialog.setMessage(mActivity.getString(R.string.DownloadDialog));
-//                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                mProgressDialog.setCancelable(true);
-//                mProgressDialog.show();
-//                return mProgressDialog;
-//            default:
-//                return null;
-//        }
-//    }
 
     @Override
     protected void onPreExecute() {

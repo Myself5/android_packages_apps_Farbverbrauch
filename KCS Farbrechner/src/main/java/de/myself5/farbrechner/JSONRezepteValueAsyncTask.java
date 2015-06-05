@@ -14,14 +14,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> {
-
-    private Activity mActivity;
+public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String> {
     private String mValue;
+    private String mFarbe;
+    private Activity mActivity;
 
-    public JSONGewebeValueAsyncTask(Activity a, String value) {
-        mActivity = a;
+    public JSONRezepteValueAsyncTask(Activity a, String value, String farbe) {
         mValue = value;
+        mFarbe = farbe;
+        mActivity = a;
+
+    }
+
+    @Override
+    public void onPreExecute() {
+        super.onPreExecute();
     }
 
     @Override
@@ -43,7 +50,9 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
 
                 JSONObject obj = new JSONObject(stringBuilder.toString().trim());
                 publishProgress("" + 60);
-                String value = obj.getString(mValue);
+                JSONObject obj2 = obj.getJSONObject(mValue);
+                publishProgress("" + 80);
+                String value = obj2.getString(mFarbe);
                 publishProgress("" + 100);
                 return value;
 
@@ -61,9 +70,5 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
     @Override
     protected void onProgressUpdate(String... progress) {
         Log.d("ANDRO_ASYNC", progress[0]);
-    }
-
-    @Override
-    protected void onPostExecute(String unused){
     }
 }

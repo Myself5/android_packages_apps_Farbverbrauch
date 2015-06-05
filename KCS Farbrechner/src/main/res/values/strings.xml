@@ -26,4 +26,6 @@
     <string name="zeigeR">Zeige Rezeptur</string>
     <string name="rezeptname">Rezeptname</string>
     <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen!</string>
+    <string name="farbe">Farbe</string>
+    <string name="menge">Menge</string>
 </resources>
