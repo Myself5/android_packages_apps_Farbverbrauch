@@ -19,15 +19,23 @@ import java.util.Arrays;
 public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     private Activity mActivity;
     private String mArrayName;
+    private String mDialogtext;
+    private ProgressDialog mProgressDialog;
 
-    public JSONArrayAsyncTask(Activity a, String array) {
+    public JSONArrayAsyncTask(Activity a, String array, String dialogtext) {
         mActivity = a;
         mArrayName = array;
+        mDialogtext = dialogtext;
     }
 
     @Override
     public void onPreExecute() {
         super.onPreExecute();
+        mProgressDialog = new ProgressDialog(mActivity);
+        mProgressDialog.setMessage(mDialogtext);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
     }
 
     static <T> T[] append(T[] arr, T element) {
@@ -76,5 +84,19 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     @Override
     protected void onProgressUpdate(String... progress) {
         Log.d("ANDRO_ASYNC", progress[0]);
+        mProgressDialog.setProgress(Integer.parseInt(progress[0]));
+    }
+
+    @Override
+    protected void onPostExecute(String... result) {
+        switch (mArrayName){
+            case "GEWEBE":
+                Farbverbrauch.getArray(result);
+                break;
+            case "REZEPTE":
+                Rezepte.getArray(result);
+                break;
+        }
+        mProgressDialog.dismiss();
     }
 }

@@ -18,10 +18,23 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
 
     private Activity mActivity;
     private String mValue;
+    private String mDialogtext;
+    private ProgressDialog mProgressDialog;
 
-    public JSONGewebeValueAsyncTask(Activity a, String value) {
+    public JSONGewebeValueAsyncTask(Activity a, String value, String dialogtext) {
         mActivity = a;
         mValue = value;
+        mDialogtext = dialogtext;
+    }
+
+    @Override
+    public void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog = new ProgressDialog(mActivity);
+        mProgressDialog.setMessage(mDialogtext);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
     }
 
     @Override
@@ -39,12 +52,9 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
                     stringBuilder.append(line).append("\n");
                 bufferedReader.close();
                 fileReader.close();
-                publishProgress("" + 20);
 
                 JSONObject obj = new JSONObject(stringBuilder.toString().trim());
-                publishProgress("" + 60);
                 String value = obj.getString(mValue);
-                publishProgress("" + 100);
                 return value;
 
             } catch (JSONException e) {
@@ -64,6 +74,8 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
     }
 
     @Override
-    protected void onPostExecute(String unused){
+    protected void onPostExecute(String result){
+        Farbverbrauch.setTV(result);
+        mProgressDialog.dismiss();
     }
 }

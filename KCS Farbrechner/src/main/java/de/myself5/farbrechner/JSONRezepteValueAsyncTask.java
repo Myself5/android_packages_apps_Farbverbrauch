@@ -18,17 +18,24 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
     private String mValue;
     private String mFarbe;
     private Activity mActivity;
+    private String mDialogtext;
+    private ProgressDialog mProgressDialog;
 
-    public JSONRezepteValueAsyncTask(Activity a, String value, String farbe) {
+    public JSONRezepteValueAsyncTask(Activity a, String value, String farbe, String dialogtext) {
         mValue = value;
         mFarbe = farbe;
         mActivity = a;
-
+        mDialogtext = dialogtext;
     }
 
     @Override
     public void onPreExecute() {
         super.onPreExecute();
+        mProgressDialog = new ProgressDialog(mActivity);
+        mProgressDialog.setMessage(mDialogtext);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
     }
 
     @Override
@@ -46,14 +53,10 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
                     stringBuilder.append(line).append("\n");
                 bufferedReader.close();
                 fileReader.close();
-                publishProgress("" + 20);
 
                 JSONObject obj = new JSONObject(stringBuilder.toString().trim());
-                publishProgress("" + 60);
                 JSONObject obj2 = obj.getJSONObject(mValue);
-                publishProgress("" + 80);
                 String value = obj2.getString(mFarbe);
-                publishProgress("" + 100);
                 return value;
 
             } catch (JSONException e) {
@@ -70,5 +73,11 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
     @Override
     protected void onProgressUpdate(String... progress) {
         Log.d("ANDRO_ASYNC", progress[0]);
+    }
+
+    @Override
+    protected void onPostExecute(String result){
+        Rezepte.setTV(mFarbe, result);
+        mProgressDialog.dismiss();
     }
 }
