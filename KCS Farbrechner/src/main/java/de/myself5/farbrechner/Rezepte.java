@@ -184,7 +184,7 @@ public class Rezepte extends Fragment {
             case "Menge_3":
                 Menge_3 = result;
                 break;
-            case "Menge4":
+            case "Menge_4":
                 Menge_4 = result;
                 break;
             case "Menge_5":
