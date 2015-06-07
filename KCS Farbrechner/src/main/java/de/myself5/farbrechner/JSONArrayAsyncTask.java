@@ -21,6 +21,7 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     private String mArrayName;
     private String mDialogtext;
     private ProgressDialog mProgressDialog;
+    private String mFile;
 
     public JSONArrayAsyncTask(Activity a, String array, String dialogtext) {
         mActivity = a;
@@ -47,12 +48,13 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
 
     @Override
     protected String[] doInBackground(String... afile) {
-        String file = new String(afile[0]);
-        File f = new File(file);
+        mFile = new String(afile[0]);
+        String mFilePath = MainActivity.FILE_PATH + mFile;
+        File f = new File(mFilePath);
         if (f.exists() && !f.isDirectory()) {
             String[] arr = {};
             try {
-                FileReader fileReader = new FileReader(file);
+                FileReader fileReader = new FileReader(mFilePath);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
@@ -89,12 +91,15 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
 
     @Override
     protected void onPostExecute(String... result) {
-        switch (mArrayName){
-            case "GEWEBE":
+        switch (mFile){
+            case "farbverbrauch.json":
                 Farbverbrauch.getArray(result);
                 break;
-            case "REZEPTE":
+            case "rezepte.json":
                 Rezepte.getArray(result);
+                break;
+            case "t_rezepte.json":
+                T_Rezepte.getArray(result);
                 break;
         }
         mProgressDialog.dismiss();

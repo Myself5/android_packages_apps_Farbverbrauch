@@ -20,6 +20,7 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
     private String mValue;
     private String mDialogtext;
     private ProgressDialog mProgressDialog;
+    private String mFile;
 
     public JSONGewebeValueAsyncTask(Activity a, String value, String dialogtext) {
         mActivity = a;
@@ -39,12 +40,13 @@ public class JSONGewebeValueAsyncTask extends AsyncTask<String, String, String> 
 
     @Override
     protected String doInBackground(String... afile) {
-        String file = new String(afile[0]);
-        File f = new File(file);
+        mFile = new String(afile[0]);
+        String mFilePath = MainActivity.FILE_PATH + mFile;
+        File f = new File(mFilePath);
         if (f.exists() && !f.isDirectory()) {
             String[] arr = {};
             try {
-                FileReader fileReader = new FileReader(file);
+                FileReader fileReader = new FileReader(mFilePath);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;

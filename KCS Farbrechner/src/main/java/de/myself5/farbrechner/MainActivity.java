@@ -14,12 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Farbverbrauch.OnFragmentInteractionListener, Rezepte.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Farbverbrauch.OnFragmentInteractionListener, Rezepte.OnFragmentInteractionListener, T_Rezepte.OnFragmentInteractionListener {
 
     private static Context context;
     public static String FILE_PATH;
@@ -61,10 +58,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         switch (position) {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new Rezepte())
+                        .replace(R.id.container, new T_Rezepte())
                         .commit();
                 break;
             case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new Rezepte())
+                        .commit();
+                break;
+            case 2:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new Farbverbrauch())
                         .commit();
@@ -75,9 +77,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_rezepte);
+                mTitle = getString(R.string.title_t_rezepte);
                 break;
             case 2:
+                mTitle = getString(R.string.title_rezepte);
+                break;
+            case 3:
                 mTitle = getString(R.string.title_farbverbrauch);
                 break;
         }
@@ -113,8 +118,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_updateJSONS) {
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), FILE_PATH +"farbverbrauch.json", "http://myself5.de/json/farbverbrauch.json");
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), FILE_PATH+"rezepte.json", "http://myself5.de/json/rezepte.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://myself5.de/json/farbverbrauch.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://myself5.de/json/rezepte.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "t_rezepte.json", "http://myself5.de/json/t_rezepte.json");
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,6 +169,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
     public static String getDataDir(final Context context) throws Exception {
         return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.dataDir;
     }

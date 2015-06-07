@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,7 @@ public class Farbverbrauch extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
         File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
         if (f.exists() && !f.isDirectory()) {
-            new JSONArrayAsyncTask(getActivity(), "GEWEBE", getString(R.string.load_json)).execute(MainActivity.FILE_PATH + "farbverbrauch.json");
+            new JSONArrayAsyncTask(getActivity(), "GEWEBE", getString(R.string.load_json)).execute("farbverbrauch.json");
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }
@@ -142,7 +141,7 @@ public class Farbverbrauch extends Fragment {
 
     public void calculate() throws JSONException, ExecutionException, InterruptedException {
         String gewebe = mGewebe.getText().toString();
-        new JSONGewebeValueAsyncTask(getActivity(), gewebe, getString(R.string.load_values)).execute(MainActivity.FILE_PATH + "farbverbrauch.json");
+        new JSONGewebeValueAsyncTask(getActivity(), gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
         anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
         drucklaenge = Integer.parseInt(mDruckklaengeCM.getText().toString());
         druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());

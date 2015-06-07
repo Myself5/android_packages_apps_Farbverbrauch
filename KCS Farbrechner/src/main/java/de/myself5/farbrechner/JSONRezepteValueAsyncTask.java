@@ -20,6 +20,7 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
     private Activity mActivity;
     private String mDialogtext;
     private ProgressDialog mProgressDialog;
+    private String mFile;
 
     public JSONRezepteValueAsyncTask(Activity a, String value, String farbe, String dialogtext) {
         mValue = value;
@@ -40,12 +41,13 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
 
     @Override
     protected String doInBackground(String... afile) {
-        String file = new String(afile[0]);
-        File f = new File(file);
+        mFile = new String(afile[0]);
+        String mFilePath = MainActivity.FILE_PATH + mFile;
+        File f = new File(mFilePath);
         if (f.exists() && !f.isDirectory()) {
             String[] arr = {};
             try {
-                FileReader fileReader = new FileReader(file);
+                FileReader fileReader = new FileReader(mFilePath);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
@@ -77,7 +79,14 @@ public class JSONRezepteValueAsyncTask extends AsyncTask<String, String, String>
 
     @Override
     protected void onPostExecute(String result){
-        Rezepte.setTV(mFarbe, result);
+        switch (mFile){
+            case "rezepte.json":
+                Rezepte.setTV(mFarbe, result);
+                break;
+            case "t_rezepte.json":
+                T_Rezepte.setTV(mFarbe, result);
+                break;
+        }
         mProgressDialog.dismiss();
     }
 }

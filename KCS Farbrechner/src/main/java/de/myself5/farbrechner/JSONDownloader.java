@@ -21,7 +21,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
     private String mDialogtext;
 
     public JSONDownloader(Activity a, String path, String dialogtext) {
-        mFilepath = path;
+        mFilepath = MainActivity.FILE_PATH + path;
         mActivity = a;
         mDialogtext = dialogtext;
     }

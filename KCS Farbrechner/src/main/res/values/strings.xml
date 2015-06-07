@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">KCS Farbrechner</string>
 
-    <string name="title_rezepte">Rezepte</string>
+    <string name="title_rezepte">1K/2K/UV Rezepte</string>
+    <string name="title_t_rezepte">T Rezepte</string>
     <string name="title_farbverbrauch">Farbverbrauch</string>
 
     <string name="navigation_drawer_open">Öffne Navigation Drawer</string>
