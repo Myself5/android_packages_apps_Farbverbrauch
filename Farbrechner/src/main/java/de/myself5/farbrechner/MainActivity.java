@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_updateJSONS) {
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://myself5.de/json/farbverbrauch.json");
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://myself5.de/json/rezepte.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://farbrechner.myself5.de/_h5ai_json/farbverbrauch.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://farbrechner.myself5.de/_h5ai_json/rezepte.json");
         }
 
         return super.onOptionsItemSelected(item);
