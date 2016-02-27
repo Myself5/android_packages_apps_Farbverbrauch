@@ -1,4 +1,4 @@
-package de.myself5.farbrechner;
+package de.myself5.farbverbrauch;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

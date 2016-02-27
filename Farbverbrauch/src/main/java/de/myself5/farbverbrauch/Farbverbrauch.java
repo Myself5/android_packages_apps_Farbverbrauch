@@ -1,12 +1,14 @@
-package de.myself5.farbrechner;
+package de.myself5.farbverbrauch;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -38,10 +40,7 @@ public class Farbverbrauch extends Fragment {
     static int druckbreite;
     static int bedruckungsgrad;
     static float cm3M2;
-    static String druckflaechem2;
-    static String farbmengeCM3;
-    static String farbmengeL;
-    static String[] GEWEBE;
+    static String[] mAvailGewebe;
     static Activity mActivity;
     View rootView;
 
@@ -62,15 +61,11 @@ public class Farbverbrauch extends Fragment {
         // Inflate the layout for this fragment
 
 
-        druckflaechem2 = getString(R.string.druckflaecheM2);
-        farbmengeCM3 = getString(R.string.farbmengeCM3);
-        farbmengeL = getString(R.string.farbmengeL);
-
         mActivity = getActivity();
         rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
         File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
         if (f.exists() && !f.isDirectory()) {
-            new JSONArrayAsyncTask(getActivity(), "GEWEBE", getString(R.string.load_json)).execute("farbverbrauch.json");
+            new JSONArrayAsyncTask(getActivity(), "Gewebe", getString(R.string.load_json)).execute("farbverbrauch.json");
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }
@@ -134,7 +129,12 @@ public class Farbverbrauch extends Fragment {
 
     public void calculate() throws JSONException, ExecutionException, InterruptedException {
         String gewebe = mGewebe.getText().toString();
-        new JSONGewebeValueAsyncTask(getActivity(), gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
+        View view = mActivity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        new JSONValueAsyncTask(getActivity(), mAvailGewebe, gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
         anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
         drucklaenge = Integer.parseInt(mDruckklaengeCM.getText().toString());
         druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());
@@ -143,16 +143,17 @@ public class Farbverbrauch extends Fragment {
 
     public static void setTV(String result) {
         cm3M2 = Float.parseFloat(result);
-        mDruckflaeche.setText(druckflaechem2 + ": " + ((float) anzDrucke * drucklaenge * druckbreite / 10000));
-        mFarbmengeCM3.setText(farbmengeCM3 + ": " + (cm3M2 * anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
-        mFarbmengeL.setText(farbmengeL + ": " + (cm3M2 * anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
+        mDruckflaeche.setText(Float.toString((float) anzDrucke * drucklaenge * druckbreite / 10000));
+        mFarbmengeCM3.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
+        mFarbmengeL.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
     }
 
     public static void getArray(String... result) {
-        GEWEBE = result;
-        if (GEWEBE != null) {
+        mAvailGewebe = result;
+        if (mAvailGewebe != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity,
-                    android.R.layout.simple_dropdown_item_1line, GEWEBE);
+                    android.R.layout.simple_dropdown_item_1line, mAvailGewebe);
+
             mGewebe.setAdapter(adapter);
             mGewebe.setThreshold(1);
         } else {

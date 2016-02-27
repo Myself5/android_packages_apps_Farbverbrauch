@@ -1,4 +1,4 @@
-package de.myself5.farbrechner;
+package de.myself5.farbverbrauch;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_updateJSONS) {
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://farbrechner.myself5.de/_h5ai_json/farbverbrauch.json");
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://farbrechner.myself5.de/_h5ai_json/rezepte.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://farbverbrauch.myself5.de/_h5ai_json/farbverbrauch.json");
+            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://farbverbrauch.myself5.de/_h5ai_json/rezepte.json");
         }
 
         return super.onOptionsItemSelected(item);

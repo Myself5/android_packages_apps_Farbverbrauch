@@ -1,4 +1,4 @@
-package de.myself5.farbrechner;
+package de.myself5.farbverbrauch;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,26 +27,28 @@ public class Rezepte extends Fragment {
 
     static AutoCompleteTextView mRezepturen;
     Button mShow;
-    static TextView mTBLH;
     static TextView mFarbe1;
     static TextView mFarbe2;
     static TextView mFarbe3;
     static TextView mFarbe4;
     static TextView mFarbe5;
-    static String Farbe;
-    static String Menge;
+    static TextView mMenge1;
+    static TextView mMenge2;
+    static TextView mMenge3;
+    static TextView mMenge4;
+    static TextView mMenge5;
 
-    static String Farbe_1;
-    static String Farbe_2;
-    static String Farbe_3;
-    static String Farbe_4;
-    static String Farbe_5;
-    static String Menge_1;
-    static String Menge_2;
-    static String Menge_3;
-    static String Menge_4;
-    static String Menge_5;
-    static String[] REZEPTE;
+    public static String Farbe_1;
+    public static String Farbe_2;
+    public static String Farbe_3;
+    public static String Farbe_4;
+    public static String Farbe_5;
+    public static String Menge_1;
+    public static String Menge_2;
+    public static String Menge_3;
+    public static String Menge_4;
+    public static String Menge_5;
+    static String[] mAvailRezepte;
     static Activity mActivity;
     View rootView;
 
@@ -65,23 +67,25 @@ public class Rezepte extends Fragment {
 
         mActivity = getActivity();
         rootView = inflater.inflate(R.layout.fragment_rezepte, container, false);
-        Farbe = getString(R.string.farbe);
-        Menge = getString(R.string.menge);
         File f = new File(MainActivity.FILE_PATH + "rezepte.json");
         if (f.exists() && !f.isDirectory()) {
-            new JSONArrayAsyncTask(getActivity(), "REZEPTE", getString(R.string.load_json)).execute("rezepte.json");
+            new JSONArrayAsyncTask(getActivity(), "Farbnamen", getString(R.string.load_json)).execute("rezepte.json");
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }
 
         mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
         mShow = (Button) rootView.findViewById(R.id.zeige);
-        mTBLH = (TextView) rootView.findViewById(R.id.tabellen_header);
         mFarbe1 = (TextView) rootView.findViewById(R.id.farbe1);
         mFarbe2 = (TextView) rootView.findViewById(R.id.farbe2);
         mFarbe3 = (TextView) rootView.findViewById(R.id.farbe3);
         mFarbe4 = (TextView) rootView.findViewById(R.id.farbe4);
         mFarbe5 = (TextView) rootView.findViewById(R.id.farbe5);
+        mMenge1 = (TextView) rootView.findViewById(R.id.menge1);
+        mMenge2 = (TextView) rootView.findViewById(R.id.menge2);
+        mMenge3 = (TextView) rootView.findViewById(R.id.menge3);
+        mMenge4 = (TextView) rootView.findViewById(R.id.menge4);
+        mMenge5 = (TextView) rootView.findViewById(R.id.menge5);
 
         mShow.setOnClickListener(
                 new View.OnClickListener() {
@@ -148,96 +152,63 @@ public class Rezepte extends Fragment {
         Menge_3 = "0";
         Menge_4 = "0";
         Menge_5 = "0";
-        mTBLH.setText("");
         mFarbe1.setText("");
         mFarbe2.setText("");
         mFarbe3.setText("");
         mFarbe4.setText("");
         mFarbe5.setText("");
+        mMenge1.setText("");
+        mMenge2.setText("");
+        mMenge3.setText("");
+        mMenge4.setText("");
+        mMenge5.setText("");
         String rezept = mRezepturen.getText().toString();
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Farbe_1", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Farbe_2", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Farbe_3", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Farbe_4", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Farbe_5", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Menge_1", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Menge_2", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Menge_3", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Menge_4", getString(R.string.load_values)).execute("rezepte.json");
-        new JSONRezepteValueAsyncTask(getActivity(), rezept, "Menge_5", getString(R.string.load_values)).execute("rezepte.json");
+        new JSONValueAsyncTask(getActivity(), mAvailRezepte, rezept, getString(R.string.load_values)).execute("rezepte.json");
     }
 
-    public static void setTV(String value, String result) {
-        switch (value) {
-            case "Farbe_1":
-                Farbe_1 = result;
-                break;
-            case "Farbe_2":
-                Farbe_2 = result;
-                break;
-            case "Farbe_3":
-                Farbe_3 = result;
-                break;
-            case "Farbe_4":
-                Farbe_4 = result;
-                break;
-            case "Farbe_5":
-                Farbe_5 = result;
-                break;
-            case "Menge_1":
-                Menge_1 = result;
-                break;
-            case "Menge_2":
-                Menge_2 = result;
-                break;
-            case "Menge_3":
-                Menge_3 = result;
-                break;
-            case "Menge_4":
-                Menge_4 = result;
-                break;
-            case "Menge_5":
-                Menge_5 = result;
-                break;
-        }
+    public static void setTV() {
 
-        mTBLH.setText(Farbe + "   " + Menge);
         if (!(Farbe_1 == null) && !(Menge_1 == null)) {
             if (!(Farbe_1.equals("0")) && !(Menge_1.equals("0"))) {
-                mFarbe1.setText(Farbe_1 + "   " + Menge_1);
+                mFarbe1.setText(Farbe_1);
+                mMenge1.setText(Menge_1);
             }
         }
 
         if (!(Farbe_2 == null) && !(Menge_2 == null)) {
             if (!(Farbe_2.equals("0")) && !(Menge_2.equals("0"))) {
-                mFarbe2.setText(Farbe_2 + "   " + Menge_2);
+                mFarbe2.setText(Farbe_2);
+                mMenge2.setText(Menge_2);
             }
         }
 
         if (!(Farbe_3 == null) && !(Menge_3 == null)) {
             if (!(Farbe_3.equals("0")) && !(Menge_3.equals("0"))) {
-                mFarbe3.setText(Farbe_3 + "   " + Menge_3);
+                mFarbe3.setText(Farbe_3);
+                mMenge3.setText(Menge_3);
             }
         }
 
         if (!(Farbe_4 == null) && !(Menge_4 == null)) {
             if (!(Farbe_4.equals("0")) && !(Menge_4.equals("0"))) {
-                mFarbe4.setText(Farbe_4 + "   " + Menge_4);
+                mFarbe4.setText(Farbe_4);
+                mMenge4.setText(Menge_4);
             }
         }
 
         if (!(Farbe_5 == null) && !(Menge_5 == null)) {
             if (!(Farbe_5.equals("0")) && !(Menge_5.equals("0"))) {
-                mFarbe5.setText(Farbe_5 + "   " + Menge_5);
+                mFarbe5.setText(Farbe_5);
+                mMenge5.setText(Menge_5);
             }
         }
     }
 
-    public static void getArray(String... result){
-        REZEPTE = result;
-        if (REZEPTE != null) {
+    public static void getArray(String... result) {
+        mAvailRezepte = result;
+        if (mAvailRezepte != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity,
-                    android.R.layout.simple_dropdown_item_1line, REZEPTE);
+                    android.R.layout.simple_dropdown_item_1line, mAvailRezepte);
 
             mRezepturen.setAdapter(adapter);
             mRezepturen.setThreshold(1);

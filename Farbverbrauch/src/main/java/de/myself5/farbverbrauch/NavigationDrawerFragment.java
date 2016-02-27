@@ -1,4 +1,4 @@
-package de.myself5.farbrechner;
+package de.myself5.farbverbrauch;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;

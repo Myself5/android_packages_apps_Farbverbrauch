@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Farbrechner</string>
+    <string name="app_name">Farbverbrauch</string>
 
     <string name="title_rezepte">1K/2K/UV Rezepte</string>
     <string name="title_farbverbrauch">Farbverbrauch</string>
@@ -9,15 +9,15 @@
 
     <string name="action_updateJSONS">Update Datenbanken</string>
 
-    <string name="druckflaecheM2">Ergebnis Druckfläche in m²</string>
-    <string name="farbmengeCM3">Ergebnis Farbmenge in cm³</string>
-    <string name="farbmengeL">Ergebnis Farbmenge in Liter</string>
+    <string name="druckflaecheM2">Druckfläche in m²</string>
+    <string name="farbmengeCM3">Farbmenge in cm³</string>
+    <string name="farbmengeL">Farbmenge in Liter</string>
 
-    <string name="vGewebe">Verwendetes Gewebe:</string>
-    <string name="anzDrucke">Anzahl Drucke:</string>
-    <string name="drucklaengeCM">Drucklänge in cm:</string>
-    <string name="druckbreiteCM">Druckbreite in cm:</string>
-    <string name="bedruckungsgrad">Bedruckungsgrad in %:</string>
+    <string name="vGewebe">Verwendetes Gewebe</string>
+    <string name="anzDrucke">Anzahl Drucke</string>
+    <string name="drucklaengeCM">Drucklänge in cm</string>
+    <string name="druckbreiteCM">Druckbreite in cm</string>
+    <string name="bedruckungsgrad">Druckgrad in %</string>
     <string name="berechnen">Berechnen</string>
     <string name="dl_json">Downloade JSON Datenbank&#8230;</string>
     <string name="noDL">JSON Datenbank noch nicht heruntergeladen, bitte erneut erledigen!</string>
@@ -28,4 +28,6 @@
     <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen!</string>
     <string name="farbe">Farbe</string>
     <string name="menge">Menge</string>
+    <string name="werte">Werteeingabe</string>
+    <string name="ergebnis">Ergebnis</string>
 </resources>

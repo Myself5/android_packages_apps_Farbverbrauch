@@ -11,4 +11,5 @@
     <color name="navDrawer">#616161</color>
     <color name="menu_text">#212121</color>
     <color name="button_text">#212121</color>
+    <color name="tableline">#9e9e9e</color>
 </resources>
