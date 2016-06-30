@@ -22,6 +22,7 @@
     <string name="dl_json">Downloade JSON Datenbank&#8230;</string>
     <string name="noDL">JSON Datenbank noch nicht heruntergeladen, bitte erneut erledigen!</string>
     <string name="load_json">Lade JSON Datenbank</string>
+    <string name="offline">Gerät ist offline, bitte Verbindung überprüfen!</string>
     <string name="load_values">Lade Daten von Datenbank</string>
     <string name="zeigeR">Zeige Rezeptur</string>
     <string name="rezeptname">1K/2K/UV Rezeptname</string>

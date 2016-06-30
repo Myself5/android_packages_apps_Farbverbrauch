@@ -14,12 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Farbverbrauch.OnFragmentInteractionListener, Rezepte.OnFragmentInteractionListener {
 
     private static Context context;
     public static String FILE_PATH;
+    static Activity mActivity;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -110,13 +112,20 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_updateJSONS) {
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "farbverbrauch.json", "http://farbverbrauch.myself5.de/_h5ai_json/farbverbrauch.json");
-            JSONDownloader.downloadJSON(this, getString(R.string.dl_json), "rezepte.json", "http://farbverbrauch.myself5.de/_h5ai_json/rezepte.json");
+            mActivity = this;
+            new RequestTask().execute("https://farbverbrauch.myself5.de/_h5ai_json/online.txt");
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    public static void downloadJSON(String result){
+        if(result.equals("online")){
+            JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "farbverbrauch.json", "https://farbverbrauch.myself5.de/_h5ai_json/farbverbrauch.json");
+            JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "rezepte.json", "https://farbverbrauch.myself5.de/_h5ai_json/rezepte.json");
+        }else{
+            Toast.makeText(mActivity, mActivity.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
