@@ -77,11 +77,7 @@ public class Rezepte extends Fragment {
                     public void onClick(View view) {
                         try {
                             show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
+                        } catch (JSONException | InterruptedException | ExecutionException e) {
                             e.printStackTrace();
                         }
                     }

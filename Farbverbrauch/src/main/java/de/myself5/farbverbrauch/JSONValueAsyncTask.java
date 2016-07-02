@@ -10,7 +10,6 @@ import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -43,7 +42,7 @@ public class JSONValueAsyncTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... afile) {
-        mFile = new String(afile[0]);
+        mFile = afile[0];
         String mFilePath = MainActivity.FILE_PATH + mFile;
         File f = new File(mFilePath);
         if (f.exists() && !f.isDirectory()) {
@@ -72,11 +71,7 @@ public class JSONValueAsyncTask extends AsyncTask<String, String, String> {
                     return array.getJSONObject(index).getString("Wert");
                 }
                 return "";
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
         }

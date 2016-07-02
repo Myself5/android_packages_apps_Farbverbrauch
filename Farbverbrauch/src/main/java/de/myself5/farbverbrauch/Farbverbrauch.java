@@ -84,11 +84,7 @@ public class Farbverbrauch extends Fragment {
                     public void onClick(View view) {
                         try {
                             calculate();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
+                        } catch (JSONException | InterruptedException | ExecutionException e) {
                             e.printStackTrace();
                         }
                     }
@@ -124,7 +120,7 @@ public class Farbverbrauch extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
     public void calculate() throws JSONException, ExecutionException, InterruptedException {

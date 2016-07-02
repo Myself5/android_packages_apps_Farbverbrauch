@@ -65,7 +65,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
             output.flush();
             output.close();
             input.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
 
