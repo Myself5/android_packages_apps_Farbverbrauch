@@ -27,27 +27,12 @@ public class Rezepte extends Fragment {
 
     static AutoCompleteTextView mRezepturen;
     Button mShow;
-    static TextView mFarbe1;
-    static TextView mFarbe2;
-    static TextView mFarbe3;
-    static TextView mFarbe4;
-    static TextView mFarbe5;
-    static TextView mMenge1;
-    static TextView mMenge2;
-    static TextView mMenge3;
-    static TextView mMenge4;
-    static TextView mMenge5;
+    public static int mMaxFarbe = 5;
+    static TextView[] mFarbeTV = new TextView[mMaxFarbe];
+    static TextView[] mMengeTV = new TextView[mMaxFarbe];
 
-    public static String Farbe_1;
-    public static String Farbe_2;
-    public static String Farbe_3;
-    public static String Farbe_4;
-    public static String Farbe_5;
-    public static String Menge_1;
-    public static String Menge_2;
-    public static String Menge_3;
-    public static String Menge_4;
-    public static String Menge_5;
+    public static String[] mFarbeS = new String[mMaxFarbe];
+    public static String[] mMengeS = new String[mMaxFarbe];
     static String[] mAvailRezepte;
     static Activity mActivity;
     View rootView;
@@ -76,16 +61,16 @@ public class Rezepte extends Fragment {
 
         mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
         mShow = (Button) rootView.findViewById(R.id.zeige);
-        mFarbe1 = (TextView) rootView.findViewById(R.id.farbe1);
-        mFarbe2 = (TextView) rootView.findViewById(R.id.farbe2);
-        mFarbe3 = (TextView) rootView.findViewById(R.id.farbe3);
-        mFarbe4 = (TextView) rootView.findViewById(R.id.farbe4);
-        mFarbe5 = (TextView) rootView.findViewById(R.id.farbe5);
-        mMenge1 = (TextView) rootView.findViewById(R.id.menge1);
-        mMenge2 = (TextView) rootView.findViewById(R.id.menge2);
-        mMenge3 = (TextView) rootView.findViewById(R.id.menge3);
-        mMenge4 = (TextView) rootView.findViewById(R.id.menge4);
-        mMenge5 = (TextView) rootView.findViewById(R.id.menge5);
+        mFarbeTV[0] = (TextView) rootView.findViewById(R.id.farbe1);
+        mFarbeTV[1] = (TextView) rootView.findViewById(R.id.farbe2);
+        mFarbeTV[2] = (TextView) rootView.findViewById(R.id.farbe3);
+        mFarbeTV[3] = (TextView) rootView.findViewById(R.id.farbe4);
+        mFarbeTV[4] = (TextView) rootView.findViewById(R.id.farbe5);
+        mMengeTV[0] = (TextView) rootView.findViewById(R.id.menge1);
+        mMengeTV[1] = (TextView) rootView.findViewById(R.id.menge2);
+        mMengeTV[2] = (TextView) rootView.findViewById(R.id.menge3);
+        mMengeTV[3] = (TextView) rootView.findViewById(R.id.menge4);
+        mMengeTV[4] = (TextView) rootView.findViewById(R.id.menge5);
 
         mShow.setOnClickListener(
                 new View.OnClickListener() {
@@ -142,64 +127,25 @@ public class Rezepte extends Fragment {
 
     public void show() throws JSONException, ExecutionException, InterruptedException {
         hideSoftKeyboard(rootView);
-        Farbe_1 = "0";
-        Farbe_2 = "0";
-        Farbe_3 = "0";
-        Farbe_4 = "0";
-        Farbe_5 = "0";
-        Menge_1 = "0";
-        Menge_2 = "0";
-        Menge_3 = "0";
-        Menge_4 = "0";
-        Menge_5 = "0";
-        mFarbe1.setText("");
-        mFarbe2.setText("");
-        mFarbe3.setText("");
-        mFarbe4.setText("");
-        mFarbe5.setText("");
-        mMenge1.setText("");
-        mMenge2.setText("");
-        mMenge3.setText("");
-        mMenge4.setText("");
-        mMenge5.setText("");
+        for(int i = 0; i < mMaxFarbe; i++)
+        {
+            mFarbeS[i] = "0";
+            mMengeS[i] = "0";
+            mFarbeTV[i].setText("");
+            mMengeTV[i].setText("");
+        }
         String rezept = mRezepturen.getText().toString();
         new JSONValueAsyncTask(getActivity(), mAvailRezepte, rezept, getString(R.string.load_values)).execute("rezepte.json");
     }
 
     public static void setTV() {
 
-        if (!(Farbe_1 == null) && !(Menge_1 == null)) {
-            if (!(Farbe_1.equals("0")) && !(Menge_1.equals("0"))) {
-                mFarbe1.setText(Farbe_1);
-                mMenge1.setText(Menge_1);
-            }
-        }
-
-        if (!(Farbe_2 == null) && !(Menge_2 == null)) {
-            if (!(Farbe_2.equals("0")) && !(Menge_2.equals("0"))) {
-                mFarbe2.setText(Farbe_2);
-                mMenge2.setText(Menge_2);
-            }
-        }
-
-        if (!(Farbe_3 == null) && !(Menge_3 == null)) {
-            if (!(Farbe_3.equals("0")) && !(Menge_3.equals("0"))) {
-                mFarbe3.setText(Farbe_3);
-                mMenge3.setText(Menge_3);
-            }
-        }
-
-        if (!(Farbe_4 == null) && !(Menge_4 == null)) {
-            if (!(Farbe_4.equals("0")) && !(Menge_4.equals("0"))) {
-                mFarbe4.setText(Farbe_4);
-                mMenge4.setText(Menge_4);
-            }
-        }
-
-        if (!(Farbe_5 == null) && !(Menge_5 == null)) {
-            if (!(Farbe_5.equals("0")) && !(Menge_5.equals("0"))) {
-                mFarbe5.setText(Farbe_5);
-                mMenge5.setText(Menge_5);
+        for(int i = 0; i < mMaxFarbe; i++) {
+            if (!(mFarbeS[i] == null) && !(mMengeS[i] == null)) {
+                if (!(mFarbeS[i].equals("0")) && !(mFarbeS[i].equals("0"))) {
+                    mFarbeTV[i].setText(mFarbeS[i]);
+                    mMengeTV[i].setText(mMengeS[i]);
+                }
             }
         }
     }

@@ -40,7 +40,7 @@ class RequestTask extends AsyncTask<String, String, String> {
 
             if(statusCode != HttpStatus.SC_OK) {
                 Log.w("Farbverbrauch", "Download Error: " + statusCode + "| for URL: " + url);
-                return "offline";
+                return null;
             }
 
             String line = "";
@@ -59,7 +59,7 @@ class RequestTask extends AsyncTask<String, String, String> {
         } catch (Exception e) {
             Log.w("Farbverbrauch", "Download Exception : " + e.toString());
         }
-        return "offline";
+        return null;
     }
 
     @Override

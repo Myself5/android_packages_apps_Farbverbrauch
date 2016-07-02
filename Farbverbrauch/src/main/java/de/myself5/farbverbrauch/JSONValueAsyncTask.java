@@ -63,16 +63,10 @@ public class JSONValueAsyncTask extends AsyncTask<String, String, String> {
                 JSONArray array = new JSONArray(stringBuilder.toString().trim());
 
                 if (mFile.equals("rezepte.json")) {
-                    Rezepte.Menge_1 = array.getJSONObject(index).getString("Menge_1");
-                    Rezepte.Menge_2 = array.getJSONObject(index).getString("Menge_2");
-                    Rezepte.Menge_3 = array.getJSONObject(index).getString("Menge_3");
-                    Rezepte.Menge_4 = array.getJSONObject(index).getString("Menge_4");
-                    Rezepte.Menge_5 = array.getJSONObject(index).getString("Menge_5");
-                    Rezepte.Farbe_1 = array.getJSONObject(index).getString("Farbe_1");
-                    Rezepte.Farbe_2 = array.getJSONObject(index).getString("Farbe_2");
-                    Rezepte.Farbe_3 = array.getJSONObject(index).getString("Farbe_3");
-                    Rezepte.Farbe_4 = array.getJSONObject(index).getString("Farbe_4");
-                    Rezepte.Farbe_5 = array.getJSONObject(index).getString("Farbe_5");
+                    for(int i = 0; i < Rezepte.mMaxFarbe; i++) {
+                        Rezepte.mMengeS[i] = array.getJSONObject(index).getString("Menge_" + (i + 1));
+                        Rezepte.mFarbeS[i] = array.getJSONObject(index).getString("Farbe_" + (i + 1));
+                    }
                     return "done";
                 } else if (mFile.equals("farbverbrauch.json")) {
                     return array.getJSONObject(index).getString("Wert");

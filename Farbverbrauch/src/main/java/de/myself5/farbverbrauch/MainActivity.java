@@ -118,14 +118,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         return super.onOptionsItemSelected(item);
     }
 
-    public static void downloadJSON(String result){
-        if(result.equals("online")){
+    public static void downloadJSON(String result) {
+        if (result != null && result.equals("online")) {
             JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "farbverbrauch.json", "https://farbverbrauch.myself5.de/_h5ai_json/farbverbrauch.json");
             JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "rezepte.json", "https://farbverbrauch.myself5.de/_h5ai_json/rezepte.json");
-        }else{
+        } else {
             Toast.makeText(mActivity, mActivity.getString(R.string.offline), Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }

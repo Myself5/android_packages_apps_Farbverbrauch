@@ -47,7 +47,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
             conexion.connect();
 
             int lenghtOfFile = conexion.getContentLength();
-            Log.d("ANDRO_ASYNC", "Lenght of file: " + lenghtOfFile);
+            Log.d("Farbverbrauch", "Lenght of file: " + lenghtOfFile);
 
             InputStream input = new BufferedInputStream(url.openStream());
             OutputStream output = new FileOutputStream(mFilepath);
@@ -72,7 +72,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
     }
 
     protected void onProgressUpdate(String... progress) {
-        Log.d("ANDRO_ASYNC", progress[0]);
+        Log.d("Farbverbrauch", "download progress:" + progress[0]);
         mProgressDialog.setProgress(Integer.parseInt(progress[0]));
     }
 
