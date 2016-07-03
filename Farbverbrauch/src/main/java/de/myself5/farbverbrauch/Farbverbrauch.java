@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,7 @@ public class Farbverbrauch extends Fragment {
     private static String[] mAvailGewebe;
     private static Activity mActivity;
     private Button mCalc;
+    private static boolean mViewLoaded = false;
 
     public Farbverbrauch() {
         // Required empty public constructor
@@ -65,6 +65,7 @@ public class Farbverbrauch extends Fragment {
 
         mActivity = getActivity();
         View rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
+        mViewLoaded = true;
         File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
         if (f.exists() && !f.isDirectory()) {
             new JSONArrayAsyncTask(getActivity(), "Gewebe", getString(R.string.load_json)).execute("farbverbrauch.json");
@@ -125,6 +126,7 @@ public class Farbverbrauch extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mViewLoaded = false;
         mListener = null;
     }
 
@@ -172,9 +174,11 @@ public class Farbverbrauch extends Fragment {
     }
 
     static void showHelp() {
-        for (int i = 0; i < 2; i++) {
-            mHelpIB[i].setVisibility(View.VISIBLE);
-            mHelpIB[i].setClickable(true);
+        if (mViewLoaded) {
+            for (int i = 0; i < 2; i++) {
+                mHelpIB[i].setVisibility(View.VISIBLE);
+                mHelpIB[i].setClickable(true);
+            }
         }
     }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ public class Rezepte extends Fragment {
     private static TextView[] mFarbeTV = new TextView[mMaxFarbe];
     private static TextView[] mMengeTV = new TextView[mMaxFarbe];
     private static ImageButton[] mHelpIB = new ImageButton[2];
+    private static boolean mViewLoaded = false;
 
     static String[] mFarbeS = new String[mMaxFarbe];
     static String[] mMengeS = new String[mMaxFarbe];
@@ -55,13 +55,13 @@ public class Rezepte extends Fragment {
 
         mActivity = getActivity();
         rootView = inflater.inflate(R.layout.fragment_rezepte, container, false);
+        mViewLoaded = true;
         File f = new File(MainActivity.FILE_PATH + "rezepte.json");
         if (f.exists() && !f.isDirectory()) {
             new JSONArrayAsyncTask(getActivity(), "Farbnamen", getString(R.string.load_json)).execute("rezepte.json");
         } else {
             Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
         }
-
         mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
         mShow = (Button) rootView.findViewById(R.id.zeige);
         mFarbeTV[0] = (TextView) rootView.findViewById(R.id.farbe1);
@@ -119,6 +119,7 @@ public class Rezepte extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mViewLoaded = false;
     }
 
     /**
@@ -165,9 +166,11 @@ public class Rezepte extends Fragment {
     }
 
     static void showHelp() {
-        for (int i = 0; i < 2; i++) {
-            mHelpIB[i].setVisibility(View.VISIBLE);
-            mHelpIB[i].setClickable(true);
+        if(mViewLoaded) {
+            for (int i = 0; i < 2; i++) {
+                mHelpIB[i].setVisibility(View.VISIBLE);
+                mHelpIB[i].setClickable(true);
+            }
         }
     }
 
