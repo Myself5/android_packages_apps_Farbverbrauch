@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class JSONValueAsyncTask extends AsyncTask<String, String, String> {
+class JSONValueAsyncTask extends AsyncTask<String, String, String> {
     private Activity mActivity;
     private String[] mArray;
     private String mValue;
@@ -23,7 +23,7 @@ public class JSONValueAsyncTask extends AsyncTask<String, String, String> {
     private ProgressDialog mProgressDialog;
     private String mFile;
 
-    public JSONValueAsyncTask(Activity a, String[] array, String value, String dialogtext) {
+    JSONValueAsyncTask(Activity a, String[] array, String value, String dialogtext) {
         mActivity = a;
         mValue = value;
         mArray = array;

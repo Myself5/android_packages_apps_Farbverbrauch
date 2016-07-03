@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="M5Theme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <!--We will be using the toolbar so no need to show ActionBar-->
         <item name="colorPrimary">@color/primary</item>

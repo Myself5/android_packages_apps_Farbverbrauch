@@ -31,4 +31,9 @@
     <string name="menge">Menge</string>
     <string name="werte">Werteeingabe</string>
     <string name="ergebnis">Ergebnis</string>
+    <string name="action_showHelp">Zeige Hilfe</string>
+    <string name="ok">OK</string>
+    <string name="helpdialog">Für Beispiele auf den jeweiligen Pfeil klicken. Bei Bedarf Vorschlag aus der Dropdownliste wählen.</string>
+    <string name="arrow_rezeptebuttonhelp">Hilfepfeil für den \"Zeige Rezept\" Button</string>
+    <string name="arrow_rezeptehelp">Hilfepfeil für die Rezeptnamen Texteingabe</string>
 </resources>

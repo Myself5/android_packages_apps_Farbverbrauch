@@ -1,10 +1,12 @@
 package de.myself5.farbverbrauch;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +28,19 @@ public class Rezepte extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    static AutoCompleteTextView mRezepturen;
-    Button mShow;
-    public static int mMaxFarbe = 5;
-    static TextView[] mFarbeTV = new TextView[mMaxFarbe];
-    static TextView[] mMengeTV = new TextView[mMaxFarbe];
+    private static AutoCompleteTextView mRezepturen;
+    private Button mShow;
+    static int mMaxFarbe = 5;
+    private static TextView[] mFarbeTV = new TextView[mMaxFarbe];
+    private static TextView[] mMengeTV = new TextView[mMaxFarbe];
+    private static ImageButton[] mHelpIB = new ImageButton[2];
 
-    public static String[] mFarbeS = new String[mMaxFarbe];
-    public static String[] mMengeS = new String[mMaxFarbe];
-    static String[] mAvailRezepte;
-    static Activity mActivity;
-    View rootView;
+    static String[] mFarbeS = new String[mMaxFarbe];
+    static String[] mMengeS = new String[mMaxFarbe];
+    private static String[] mAvailRezepte;
+    private static Activity mActivity;
+    private static FragmentActivity mContext;
+    private View rootView;
 
     public Rezepte() {
         // Required empty public constructor
@@ -71,6 +76,22 @@ public class Rezepte extends Fragment {
         mMengeTV[2] = (TextView) rootView.findViewById(R.id.menge3);
         mMengeTV[3] = (TextView) rootView.findViewById(R.id.menge4);
         mMengeTV[4] = (TextView) rootView.findViewById(R.id.menge5);
+        mHelpIB[0] = (ImageButton) rootView.findViewById(R.id.rezepthelp);
+        mHelpIB[1] = (ImageButton) rootView.findViewById(R.id.clickhelp);
+
+        mHelpIB[0].setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        helpRezepteTV();
+                    }
+                });
+
+        mHelpIB[1].setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        helpRezepteButton();
+                    }
+                });
 
         mShow.setOnClickListener(
                 new View.OnClickListener() {
@@ -89,6 +110,7 @@ public class Rezepte extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
+            mContext =(FragmentActivity) activity;
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -112,19 +134,18 @@ public class Rezepte extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void hideSoftKeyboard(View view) {
+    private void hideSoftKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void show() throws JSONException, ExecutionException, InterruptedException {
+    private void show() throws JSONException, ExecutionException, InterruptedException {
         hideSoftKeyboard(rootView);
-        for(int i = 0; i < mMaxFarbe; i++)
-        {
+        for (int i = 0; i < mMaxFarbe; i++) {
             mFarbeS[i] = "0";
             mMengeS[i] = "0";
             mFarbeTV[i].setText("");
@@ -134,9 +155,9 @@ public class Rezepte extends Fragment {
         new JSONValueAsyncTask(getActivity(), mAvailRezepte, rezept, getString(R.string.load_values)).execute("rezepte.json");
     }
 
-    public static void setTV() {
+    static void setTV() {
 
-        for(int i = 0; i < mMaxFarbe; i++) {
+        for (int i = 0; i < mMaxFarbe; i++) {
             if (!(mFarbeS[i] == null) && !(mMengeS[i] == null)) {
                 if (!(mFarbeS[i].equals("0")) && !(mFarbeS[i].equals("0"))) {
                     mFarbeTV[i].setText(mFarbeS[i]);
@@ -146,7 +167,28 @@ public class Rezepte extends Fragment {
         }
     }
 
-    public static void getArray(String... result) {
+    static void showHelp() {
+        DialogFragment newFragment = new HelpDialog();
+        newFragment.show(mContext.getFragmentManager(), "HelpDialog");
+        for (int i = 0; i < 2; i++) {
+            mHelpIB[i].setVisibility(View.VISIBLE);
+            mHelpIB[i].setClickable(true);
+        }
+    }
+
+    private void helpRezepteTV(){
+        mRezepturen.setText("2K/HKS 10 K");
+    }
+
+    private void helpRezepteButton(){
+        mShow.performClick();
+        mShow.setPressed(true);
+        mShow.invalidate();
+        mShow.setPressed(false);
+        mShow.invalidate();
+    }
+
+    static void getArray(String... result) {
         mAvailRezepte = result;
         if (mAvailRezepte != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity,

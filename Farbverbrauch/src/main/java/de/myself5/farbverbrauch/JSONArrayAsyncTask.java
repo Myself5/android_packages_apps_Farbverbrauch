@@ -14,14 +14,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
+class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
     private Activity mActivity;
     private String mArrayName;
     private String mDialogtext;
     private ProgressDialog mProgressDialog;
     private String mFile;
 
-    public JSONArrayAsyncTask(Activity a, String array, String dialogtext) {
+    JSONArrayAsyncTask(Activity a, String array, String dialogtext) {
         mActivity = a;
         mArrayName = array;
         mDialogtext = dialogtext;
@@ -37,7 +37,7 @@ public class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
          mProgressDialog.show();
     }
 
-    static <T> T[] append(T[] arr, T element) {
+    private static <T> T[] append(T[] arr, T element) {
         final int N = arr.length;
         arr = Arrays.copyOf(arr, N + 1);
         arr[N] = element;

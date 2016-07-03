@@ -26,23 +26,22 @@ public class Farbverbrauch extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    static AutoCompleteTextView mGewebe;
-    EditText mAnzDrucke;
-    EditText mDruckklaengeCM;
-    EditText mDruckbreiteCM;
-    EditText mBedruckungsgrad;
-    static TextView mDruckflaeche;
-    static TextView mFarbmengeCM3;
-    static TextView mFarbmengeL;
-    Button mCalc;
-    static int anzDrucke;
-    static int drucklaenge;
-    static int druckbreite;
-    static int bedruckungsgrad;
-    static float cm3M2;
-    static String[] mAvailGewebe;
-    static Activity mActivity;
-    View rootView;
+    private static AutoCompleteTextView mGewebe;
+    private EditText mAnzDrucke;
+    private EditText mDrucklaengeCM;
+    private EditText mDruckbreiteCM;
+    private EditText mBedruckungsgrad;
+    private static TextView mDruckflaeche;
+    private static TextView mFarbmengeCM3;
+    private static TextView mFarbmengeL;
+    private Button mCalc;
+    private static int anzDrucke;
+    private static int drucklaenge;
+    private static int druckbreite;
+    private static int bedruckungsgrad;
+    private static String[] mAvailGewebe;
+    private static Activity mActivity;
+    private View rootView;
 
     public Farbverbrauch() {
         // Required empty public constructor
@@ -71,7 +70,7 @@ public class Farbverbrauch extends Fragment {
         }
         mGewebe = (AutoCompleteTextView) rootView.findViewById(R.id.gewebe);
         mAnzDrucke = (EditText) rootView.findViewById(R.id.anzDrucke);
-        mDruckklaengeCM = (EditText) rootView.findViewById(R.id.drucklaengeCM);
+        mDrucklaengeCM = (EditText) rootView.findViewById(R.id.drucklaengeCM);
         mDruckbreiteCM = (EditText) rootView.findViewById(R.id.druckbreiteCM);
         mBedruckungsgrad = (EditText) rootView.findViewById(R.id.bedruckungsgrad);
         mDruckflaeche = (TextView) rootView.findViewById(R.id.druckflaecheM2);
@@ -119,32 +118,40 @@ public class Farbverbrauch extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void calculate() throws JSONException, ExecutionException, InterruptedException {
+    private void calculate() throws JSONException, ExecutionException, InterruptedException {
         String gewebe = mGewebe.getText().toString();
         View view = mActivity.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-        new JSONValueAsyncTask(getActivity(), mAvailGewebe, gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
-        anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
-        drucklaenge = Integer.parseInt(mDruckklaengeCM.getText().toString());
-        druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());
-        bedruckungsgrad = Integer.parseInt(mBedruckungsgrad.getText().toString());
+
+        if(isSet(mGewebe) && isSet(mAnzDrucke) && isSet(mDrucklaengeCM) && isSet(mDruckbreiteCM) && isSet(mBedruckungsgrad)) {
+            new JSONValueAsyncTask(getActivity(), mAvailGewebe, gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
+
+            anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
+            drucklaenge = Integer.parseInt(mDrucklaengeCM.getText().toString());
+            druckbreite = Integer.parseInt(mDruckbreiteCM.getText().toString());
+            bedruckungsgrad = Integer.parseInt(mBedruckungsgrad.getText().toString());
+        }
     }
 
-    public static void setTV(String result) {
-        cm3M2 = Float.parseFloat(result);
+    private boolean isSet(EditText etText) {
+        return etText.getText().toString().trim().length() > 0;
+    }
+
+    static void setTV(String result) {
+        float cm3M2 = Float.parseFloat(result);
         mDruckflaeche.setText(Float.toString((float) anzDrucke * drucklaenge * druckbreite / 10000));
         mFarbmengeCM3.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
         mFarbmengeL.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
     }
 
-    public static void getArray(String... result) {
+    static void getArray(String... result) {
         mAvailGewebe = result;
         if (mAvailGewebe != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity,

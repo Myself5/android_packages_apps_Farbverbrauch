@@ -20,8 +20,8 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Farbverbrauch.OnFragmentInteractionListener, Rezepte.OnFragmentInteractionListener {
 
     private static Context context;
-    public static String FILE_PATH;
-    static Activity mActivity;
+    static String FILE_PATH;
+    private static Activity mActivity;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
     }
 
-    public void onSectionAttached(int number) {
+    private void onSectionAttached(int number) {
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_rezepte);
@@ -82,8 +82,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
     }
 
-    public void restoreActionBar() {
+    private void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
@@ -111,14 +112,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_updateJSONS) {
-            mActivity = this;
-            new RequestTask().execute("https://farbverbrauch.myself5.de/_h5ai_json/online.txt");
+        switch(id) {
+            case R.id.action_updateJSONS:
+                mActivity = this;
+                new RequestTask().execute("https://farbverbrauch.myself5.de/_h5ai_json/online.txt");
+                break;
+            case R.id.action_showHelp:
+                Rezepte.showHelp();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static void downloadJSON(String result) {
+    static void downloadJSON(String result) {
         if (result != null && result.equals("online")) {
             JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "farbverbrauch.json", "https://farbverbrauch.myself5.de/_h5ai_json/farbverbrauch.json");
             JSONDownloader.downloadJSON(mActivity, mActivity.getString(R.string.dl_json), "rezepte.json", "https://farbverbrauch.myself5.de/_h5ai_json/rezepte.json");
@@ -170,7 +176,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
     }
 
-    public static String getDataDir(final Context context) throws Exception {
+    private static String getDataDir(final Context context) throws Exception {
         return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.dataDir;
     }
 }

@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class JSONDownloader extends AsyncTask<String, String, String>{
+class JSONDownloader extends AsyncTask<String, String, String>{
 
     //    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
     private ProgressDialog mProgressDialog;
@@ -20,7 +20,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
     private String mFilepath;
     private String mDialogtext;
 
-    public JSONDownloader(Activity a, String path, String dialogtext) {
+    private JSONDownloader(Activity a, String path, String dialogtext) {
         mFilepath = MainActivity.FILE_PATH + path;
         mActivity = a;
         mDialogtext = dialogtext;
@@ -81,7 +81,7 @@ public class JSONDownloader extends AsyncTask<String, String, String>{
         mProgressDialog.dismiss();
     }
 
-    public static void downloadJSON(Activity activ, String text, String path, String url) {
+    static void downloadJSON(Activity activ, String text, String path, String url) {
             new JSONDownloader(activ, path, text).execute(url);
     }
 }
