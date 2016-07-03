@@ -1,6 +1,7 @@
 package de.myself5.farbverbrauch;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -118,7 +119,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 new RequestTask().execute("https://farbverbrauch.myself5.de/_h5ai_json/online.txt");
                 break;
             case R.id.action_showHelp:
+                DialogFragment newFragment = new HelpDialog();
+                newFragment.show(getFragmentManager(), "HelpDialog");
                 Rezepte.showHelp();
+                Farbverbrauch.showHelp();
                 break;
         }
         return super.onOptionsItemSelected(item);

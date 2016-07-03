@@ -1,7 +1,6 @@
 package de.myself5.farbverbrauch;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public class Rezepte extends Fragment {
     static String[] mMengeS = new String[mMaxFarbe];
     private static String[] mAvailRezepte;
     private static Activity mActivity;
-    private static FragmentActivity mContext;
     private View rootView;
 
     public Rezepte() {
@@ -110,7 +108,6 @@ public class Rezepte extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mContext =(FragmentActivity) activity;
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -168,8 +165,6 @@ public class Rezepte extends Fragment {
     }
 
     static void showHelp() {
-        DialogFragment newFragment = new HelpDialog();
-        newFragment.show(mContext.getFragmentManager(), "HelpDialog");
         for (int i = 0; i < 2; i++) {
             mHelpIB[i].setVisibility(View.VISIBLE);
             mHelpIB[i].setClickable(true);

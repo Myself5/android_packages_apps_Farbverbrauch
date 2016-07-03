@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -209,4 +210,25 @@
         </TableRow>
     </TableLayout>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_send_black_24px"
+        android:id="@+id/farbverbrauch_help"
+        android:contentDescription="@string/arrow_farbverbrauch_help"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:layout_alignBottom="@+id/werteheader"
+        android:layout_alignStart="@+id/tabellenheader" />
+
+    <ImageButton
+        app:srcCompat="@drawable/ic_send_black_24px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/farbverbrauchbutton_help"
+        android:contentDescription="@string/arrow_farbvarbrauchbutton_help"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:layout_alignTop="@+id/berechnen"
+        android:layout_toStartOf="@+id/werteheader" />
 </RelativeLayout>

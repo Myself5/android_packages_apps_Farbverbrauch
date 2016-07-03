@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class Farbverbrauch extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private static ImageButton[] mHelpIB = new ImageButton[2];
+
     private static AutoCompleteTextView mGewebe;
     private EditText mAnzDrucke;
     private EditText mDrucklaengeCM;
@@ -34,14 +38,13 @@ public class Farbverbrauch extends Fragment {
     private static TextView mDruckflaeche;
     private static TextView mFarbmengeCM3;
     private static TextView mFarbmengeL;
-    private Button mCalc;
     private static int anzDrucke;
     private static int drucklaenge;
     private static int druckbreite;
     private static int bedruckungsgrad;
     private static String[] mAvailGewebe;
     private static Activity mActivity;
-    private View rootView;
+    private Button mCalc;
 
     public Farbverbrauch() {
         // Required empty public constructor
@@ -61,7 +64,7 @@ public class Farbverbrauch extends Fragment {
 
 
         mActivity = getActivity();
-        rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
         File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
         if (f.exists() && !f.isDirectory()) {
             new JSONArrayAsyncTask(getActivity(), "Gewebe", getString(R.string.load_json)).execute("farbverbrauch.json");
@@ -77,6 +80,23 @@ public class Farbverbrauch extends Fragment {
         mFarbmengeCM3 = (TextView) rootView.findViewById(R.id.farbmengeCM3);
         mFarbmengeL = (TextView) rootView.findViewById(R.id.farbmengeL);
         mCalc = (Button) rootView.findViewById(R.id.berechnen);
+
+        mHelpIB[0] = (ImageButton) rootView.findViewById(R.id.farbverbrauch_help);
+        mHelpIB[1] = (ImageButton) rootView.findViewById(R.id.farbverbrauchbutton_help);
+
+        mHelpIB[0].setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        helpFarbverbrauchTV();
+                    }
+                });
+
+        mHelpIB[1].setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        helpFarbverbrauchButton();
+                    }
+                });
 
         mCalc.setOnClickListener(
                 new View.OnClickListener() {
@@ -149,6 +169,29 @@ public class Farbverbrauch extends Fragment {
         mDruckflaeche.setText(Float.toString((float) anzDrucke * drucklaenge * druckbreite / 10000));
         mFarbmengeCM3.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
         mFarbmengeL.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
+    }
+
+    static void showHelp() {
+        for (int i = 0; i < 2; i++) {
+            mHelpIB[i].setVisibility(View.VISIBLE);
+            mHelpIB[i].setClickable(true);
+        }
+    }
+
+    private void helpFarbverbrauchTV(){
+        mGewebe.setText("10-260");
+        mAnzDrucke.setText("10");
+        mDruckbreiteCM.setText("12");
+        mDrucklaengeCM.setText("36");
+        mBedruckungsgrad.setText("25");
+    }
+
+    private void helpFarbverbrauchButton(){
+        mCalc.performClick();
+        mCalc.setPressed(true);
+        mCalc.invalidate();
+        mCalc.setPressed(false);
+        mCalc.invalidate();
     }
 
     static void getArray(String... result) {

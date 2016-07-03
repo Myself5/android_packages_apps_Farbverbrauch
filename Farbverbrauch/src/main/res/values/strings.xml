@@ -36,4 +36,6 @@
     <string name="helpdialog">Für Beispiele auf den jeweiligen Pfeil klicken. Bei Bedarf Vorschlag aus der Dropdownliste wählen.</string>
     <string name="arrow_rezeptebuttonhelp">Hilfepfeil für den \"Zeige Rezept\" Button</string>
     <string name="arrow_rezeptehelp">Hilfepfeil für die Rezeptnamen Texteingabe</string>
+    <string name="arrow_farbverbrauch_help">Hilfepfeil für Farbverbrauchsinformationen</string>
+    <string name="arrow_farbvarbrauchbutton_help">Hilfepfeil für \"Farbverbrauch berechnen\" Button</string>
 </resources>
