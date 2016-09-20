@@ -6,7 +6,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "de.myself5.farbrechner"
+        applicationId "de.myself5.farbverbrauch"
         minSdkVersion 17
         targetSdkVersion 24
         versionCode 2
