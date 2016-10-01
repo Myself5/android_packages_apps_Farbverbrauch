@@ -26,7 +26,7 @@
     <string name="load_values">Lade Daten von Datenbank</string>
     <string name="zeigeR">Zeige Rezeptur</string>
     <string name="rezeptname">1K/2K/UV Rezeptname</string>
-    <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen uns Datenbanken updaten!</string>
+    <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen und Datenbanken updaten!</string>
     <string name="farbe">Farbe</string>
     <string name="menge">Menge</string>
     <string name="werte">Werteeingabe</string>
