@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 
@@ -39,6 +38,7 @@ public class Rezepte extends Fragment {
     private static String[] mAvailRezepte;
     private static Activity mActivity;
     private View rootView;
+    static private boolean mUnlockButton;
 
     public Rezepte() {
         // Required empty public constructor
@@ -56,12 +56,7 @@ public class Rezepte extends Fragment {
         mActivity = getActivity();
         rootView = inflater.inflate(R.layout.fragment_rezepte, container, false);
         mViewLoaded = true;
-        File f = new File(MainActivity.FILE_PATH + "rezepte.json");
-        if (f.exists() && !f.isDirectory()) {
-            new JSONArrayAsyncTask(getActivity(), "Farbnamen", getString(R.string.load_json)).execute("rezepte.json");
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
-        }
+        loadJson();
         mRezepturen = (AutoCompleteTextView) rootView.findViewById(R.id.rezept);
         mShow = (Button) rootView.findViewById(R.id.zeige);
         mFarbeTV[0] = (TextView) rootView.findViewById(R.id.farbe1);
@@ -154,19 +149,25 @@ public class Rezepte extends Fragment {
     }
 
     static void setTV() {
-
-        for (int i = 0; i < mMaxFarbe; i++) {
-            if (!(mFarbeS[i] == null) && !(mMengeS[i] == null)) {
-                if (!(mFarbeS[i].equals("0")) && !(mFarbeS[i].equals("0"))) {
-                    mFarbeTV[i].setText(mFarbeS[i]);
-                    mMengeTV[i].setText(mMengeS[i]);
+        if (!(mFarbeS[0] == null) && !(mMengeS[0] == null)) {
+            if (!(mFarbeS[0].equals("0")) && !(mMengeS[0].equals("0"))) {
+                for (int i = 0; i < mMaxFarbe; i++) {
+                    if (!(mFarbeS[i] == null) && !(mMengeS[i] == null)) {
+                        if (!(mFarbeS[i].equals("0")) && !(mMengeS[i].equals("0"))) {
+                            mFarbeTV[i].setText(mFarbeS[i]);
+                            mMengeTV[i].setText(mMengeS[i]);
+                        }
+                    }
                 }
+                return;
             }
         }
+        MainActivity.showHelpDialog(mActivity.getString(R.string.invalid_entry));
     }
 
     static void showHelp() {
-        if(mViewLoaded) {
+        if (mViewLoaded) {
+            mUnlockButton = false;
             for (int i = 0; i < 2; i++) {
                 mHelpIB[i].setVisibility(View.VISIBLE);
                 mHelpIB[i].setClickable(true);
@@ -174,16 +175,25 @@ public class Rezepte extends Fragment {
         }
     }
 
-    private void helpRezepteTV(){
-        mRezepturen.setText("2K/HKS 10 K");
+    private void helpRezepteTV() {
+        if (mAvailRezepte != null) {
+            mRezepturen.setText(mAvailRezepte[0]);
+            mUnlockButton = true;
+        } else {
+            Toast.makeText(mActivity, mActivity.getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void helpRezepteButton(){
-        mShow.performClick();
-        mShow.setPressed(true);
-        mShow.invalidate();
-        mShow.setPressed(false);
-        mShow.invalidate();
+    private void helpRezepteButton() {
+        if (mUnlockButton) {
+            mShow.performClick();
+            mShow.setPressed(true);
+            mShow.invalidate();
+            mShow.setPressed(false);
+            mShow.invalidate();
+        } else {
+            Toast.makeText(mActivity, mActivity.getString(R.string.previous_step), Toast.LENGTH_SHORT).show();
+        }
     }
 
     static void getArray(String... result) {
@@ -197,5 +207,10 @@ public class Rezepte extends Fragment {
         } else {
             Toast.makeText(mActivity, mActivity.getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    static void loadJson() {
+        if (mViewLoaded)
+            MainActivity.loadJsonArray("Farbnamen", "rezepte.json");
     }
 }

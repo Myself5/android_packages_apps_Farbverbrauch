@@ -17,11 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.File;
+
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Farbverbrauch.OnFragmentInteractionListener, Rezepte.OnFragmentInteractionListener {
 
     private static Context context;
     static String FILE_PATH;
+    static String HelpString;
     private static Activity mActivity;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -36,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivity = this;
         MainActivity.context = getApplicationContext();
         try {
             FILE_PATH = getDataDir(context) + "/";
@@ -113,14 +117,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch(id) {
+        switch (id) {
             case R.id.action_updateJSONS:
-                mActivity = this;
                 new RequestTask().execute("https://farbverbrauch.myself5.de/_h5ai_json/online.txt");
                 break;
             case R.id.action_showHelp:
-                DialogFragment newFragment = new HelpDialog();
-                newFragment.show(getFragmentManager(), "HelpDialog");
+                showHelpDialog(getString(R.string.helpdialog));
                 Rezepte.showHelp();
                 Farbverbrauch.showHelp();
                 break;
@@ -135,6 +137,21 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         } else {
             Toast.makeText(mActivity, mActivity.getString(R.string.offline), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    static protected void loadJsonArray(String param, String file) {
+        File f = new File(MainActivity.FILE_PATH + file);
+        if (f.exists() && !f.isDirectory()) {
+            new JSONArrayAsyncTask(mActivity, param, mActivity.getString(R.string.load_json)).execute(file);
+        } else {
+            Toast.makeText(mActivity, mActivity.getString(R.string.noDL), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    static protected void showHelpDialog(String text) {
+        HelpString = text;
+        DialogFragment newFragment = new HelpDialog();
+        newFragment.show(mActivity.getFragmentManager(), "HelpDialog");
     }
 
     @Override

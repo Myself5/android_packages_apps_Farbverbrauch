@@ -18,10 +18,12 @@ class JSONDownloader extends AsyncTask<String, String, String>{
     private ProgressDialog mProgressDialog;
     private Activity mActivity;
     private String mFilepath;
+    private String mFile;
     private String mDialogtext;
 
     private JSONDownloader(Activity a, String path, String dialogtext) {
         mFilepath = MainActivity.FILE_PATH + path;
+        mFile = path;
         mActivity = a;
         mDialogtext = dialogtext;
     }
@@ -78,6 +80,14 @@ class JSONDownloader extends AsyncTask<String, String, String>{
 
     @Override
     protected void onPostExecute(String result) {
+        switch (mFile) {
+            case "rezepte.json":
+                Rezepte.loadJson();
+                break;
+            case "farbverbrauch.json":
+                Farbverbrauch.loadJson();
+                break;
+        }
         mProgressDialog.dismiss();
     }
 

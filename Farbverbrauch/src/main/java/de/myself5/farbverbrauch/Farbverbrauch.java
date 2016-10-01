@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 
@@ -45,6 +44,7 @@ public class Farbverbrauch extends Fragment {
     private static Activity mActivity;
     private Button mCalc;
     private static boolean mViewLoaded = false;
+    static private boolean mUnlockButton;
 
     public Farbverbrauch() {
         // Required empty public constructor
@@ -66,12 +66,7 @@ public class Farbverbrauch extends Fragment {
         mActivity = getActivity();
         View rootView = inflater.inflate(R.layout.fragment_farbverbrauch, container, false);
         mViewLoaded = true;
-        File f = new File(MainActivity.FILE_PATH + "farbverbrauch.json");
-        if (f.exists() && !f.isDirectory()) {
-            new JSONArrayAsyncTask(getActivity(), "Gewebe", getString(R.string.load_json)).execute("farbverbrauch.json");
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.noDL), Toast.LENGTH_SHORT).show();
-        }
+        loadJson();
         mGewebe = (AutoCompleteTextView) rootView.findViewById(R.id.gewebe);
         mAnzDrucke = (EditText) rootView.findViewById(R.id.anzDrucke);
         mDrucklaengeCM = (EditText) rootView.findViewById(R.id.drucklaengeCM);
@@ -152,7 +147,7 @@ public class Farbverbrauch extends Fragment {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        if(isSet(mGewebe) && isSet(mAnzDrucke) && isSet(mDrucklaengeCM) && isSet(mDruckbreiteCM) && isSet(mBedruckungsgrad)) {
+        if (isSet(mGewebe) && isSet(mAnzDrucke) && isSet(mDrucklaengeCM) && isSet(mDruckbreiteCM) && isSet(mBedruckungsgrad)) {
             new JSONValueAsyncTask(getActivity(), mAvailGewebe, gewebe, getString(R.string.load_values)).execute("farbverbrauch.json");
 
             anzDrucke = Integer.parseInt(mAnzDrucke.getText().toString());
@@ -167,13 +162,18 @@ public class Farbverbrauch extends Fragment {
     }
 
     static void setTV(String result) {
-        float cm3M2 = Float.parseFloat(result);
-        mDruckflaeche.setText(Float.toString((float) anzDrucke * drucklaenge * druckbreite / 10000));
-        mFarbmengeCM3.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
-        mFarbmengeL.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
+        if (result != null) {
+            float cm3M2 = Float.parseFloat(result);
+            mDruckflaeche.setText(Float.toString((float) anzDrucke * drucklaenge * druckbreite / 10000));
+            mFarbmengeCM3.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000));
+            mFarbmengeL.setText(Float.toString(cm3M2 * (float) anzDrucke * drucklaenge * druckbreite * bedruckungsgrad / 1000000000));
+        } else {
+            MainActivity.showHelpDialog(mActivity.getString(R.string.invalid_entry));
+        }
     }
 
     static void showHelp() {
+        mUnlockButton = false;
         if (mViewLoaded) {
             for (int i = 0; i < 2; i++) {
                 mHelpIB[i].setVisibility(View.VISIBLE);
@@ -182,20 +182,29 @@ public class Farbverbrauch extends Fragment {
         }
     }
 
-    private void helpFarbverbrauchTV(){
-        mGewebe.setText("10-260");
-        mAnzDrucke.setText("10");
-        mDruckbreiteCM.setText("12");
-        mDrucklaengeCM.setText("36");
-        mBedruckungsgrad.setText("25");
+    private void helpFarbverbrauchTV() {
+        if (mAvailGewebe != null) {
+            mGewebe.setText(mAvailGewebe[0]);
+            mAnzDrucke.setText("10");
+            mDruckbreiteCM.setText("12");
+            mDrucklaengeCM.setText("36");
+            mBedruckungsgrad.setText("25");
+            mUnlockButton = true;
+        } else {
+            Toast.makeText(mActivity, mActivity.getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void helpFarbverbrauchButton(){
-        mCalc.performClick();
-        mCalc.setPressed(true);
-        mCalc.invalidate();
-        mCalc.setPressed(false);
-        mCalc.invalidate();
+    private void helpFarbverbrauchButton() {
+        if (mUnlockButton) {
+            mCalc.performClick();
+            mCalc.setPressed(true);
+            mCalc.invalidate();
+            mCalc.setPressed(false);
+            mCalc.invalidate();
+        } else {
+            Toast.makeText(mActivity, mActivity.getString(R.string.previous_step), Toast.LENGTH_SHORT).show();
+        }
     }
 
     static void getArray(String... result) {
@@ -209,5 +218,10 @@ public class Farbverbrauch extends Fragment {
         } else {
             Toast.makeText(mActivity, mActivity.getString(R.string.fail_load), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    static void loadJson() {
+        if (mViewLoaded)
+            MainActivity.loadJsonArray("Gewebe", "farbverbrauch.json");
     }
 }

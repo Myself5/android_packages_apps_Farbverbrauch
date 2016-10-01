@@ -34,7 +34,7 @@ class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
         mProgressDialog.setMessage(mDialogtext);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(false);
-         mProgressDialog.show();
+        mProgressDialog.show();
     }
 
     private static <T> T[] append(T[] arr, T element) {
@@ -64,7 +64,7 @@ class JSONArrayAsyncTask extends AsyncTask<String, String, String[]> {
                 JSONArray array = new JSONArray(stringBuilder.toString().trim());
 
                 // Process each result in json array, decode and convert to business object
-                for (int i=0; i < array.length(); i++) {
+                for (int i = 0; i < array.length(); i++) {
                     try {
                         arr = append(arr, array.getJSONObject(i).getString(mArrayName));
                     } catch (Exception e) {

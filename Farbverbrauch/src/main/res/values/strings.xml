@@ -26,16 +26,18 @@
     <string name="load_values">Lade Daten von Datenbank</string>
     <string name="zeigeR">Zeige Rezeptur</string>
     <string name="rezeptname">1K/2K/UV Rezeptname</string>
-    <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen!</string>
+    <string name="fail_load">Laden der JSON Datenbank fehlgeschlagen, bitte erneut versuchen uns Datenbanken updaten!</string>
     <string name="farbe">Farbe</string>
     <string name="menge">Menge</string>
     <string name="werte">Werteeingabe</string>
     <string name="ergebnis">Ergebnis</string>
     <string name="action_showHelp">Zeige Hilfe</string>
     <string name="ok">OK</string>
+    <string name="invalid_entry">Ungülige Eingabe! \nBitte Eingabe überprüfen.</string>
     <string name="helpdialog">Für Beispiele auf den jeweiligen Pfeil klicken. Bei Bedarf Vorschlag aus der Dropdownliste wählen.</string>
     <string name="arrow_rezeptebuttonhelp">Hilfepfeil für den \"Zeige Rezept\" Button</string>
     <string name="arrow_rezeptehelp">Hilfepfeil für die Rezeptnamen Texteingabe</string>
     <string name="arrow_farbverbrauch_help">Hilfepfeil für Farbverbrauchsinformationen</string>
     <string name="arrow_farbvarbrauchbutton_help">Hilfepfeil für \"Farbverbrauch berechnen\" Button</string>
+    <string name="previous_step">Bitte zuerst den vorhergehend Schritt erledigen!</string>
 </resources>

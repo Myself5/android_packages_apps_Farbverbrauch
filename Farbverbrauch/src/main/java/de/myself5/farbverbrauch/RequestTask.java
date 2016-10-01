@@ -36,7 +36,7 @@ class RequestTask extends AsyncTask<String, String, String> {
             HttpResponse getResponse = client.execute(httpget);
             final int statusCode = getResponse.getStatusLine().getStatusCode();
 
-            if(statusCode != HttpStatus.SC_OK) {
+            if (statusCode != HttpStatus.SC_OK) {
                 Log.w("Farbverbrauch", "Download Error: " + statusCode + "| for URL: " + url);
                 return null;
             }
@@ -48,7 +48,7 @@ class RequestTask extends AsyncTask<String, String, String> {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(getResponseEntity.getContent()));
 
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 total.append(line);
             }
 

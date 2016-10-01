@@ -62,7 +62,7 @@ class JSONValueAsyncTask extends AsyncTask<String, String, String> {
                 JSONArray array = new JSONArray(stringBuilder.toString().trim());
 
                 if (mFile.equals("rezepte.json")) {
-                    for(int i = 0; i < Rezepte.mMaxFarbe; i++) {
+                    for (int i = 0; i < Rezepte.mMaxFarbe; i++) {
                         Rezepte.mMengeS[i] = array.getJSONObject(index).getString("Menge_" + (i + 1));
                         Rezepte.mFarbeS[i] = array.getJSONObject(index).getString("Farbe_" + (i + 1));
                     }
@@ -70,7 +70,7 @@ class JSONValueAsyncTask extends AsyncTask<String, String, String> {
                 } else if (mFile.equals("farbverbrauch.json")) {
                     return array.getJSONObject(index).getString("Wert");
                 }
-                return "";
+                return null;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
