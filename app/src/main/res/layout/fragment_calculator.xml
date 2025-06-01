@@ -1,0 +1,234 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ui.calculator.CalculatorFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/werte"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/werteheader"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TableLayout
+        android:id="@+id/tabellenheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/werteheader"
+        android:layout_centerHorizontal="true">
+
+        <TableRow
+            android:id="@+id/tabellenheaderr"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <AutoCompleteTextView
+                android:id="@+id/gewebe"
+                android:gravity="center"
+                android:layout_width="320dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:hint="@string/vGewebe" />
+
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:id="@+id/wertetabelle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/tabellenheader"
+        android:layout_centerHorizontal="true">
+
+        <TableRow
+            android:id="@+id/r1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <EditText
+                android:id="@+id/anzDrucke"
+                android:gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:hint="@string/anzDrucke"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/bedruckungsgrad"
+                android:gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:hint="@string/bedruckungsgrad"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="number" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/r2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <EditText
+                android:id="@+id/drucklaengeCM"
+                android:gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:hint="@string/drucklaengeCM"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/druckbreiteCM"
+                android:gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:hint="@string/druckbreiteCM"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="number" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/berechnen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wertetabelle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/berechnen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/ergebnis"
+        android:id="@+id/ergebnisheader"
+        android:layout_below="@+id/berechnen"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp" />
+
+    <TableLayout
+        android:id="@+id/ergebnistabelle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/ergebnisheader"
+        android:layout_centerHorizontal="true">
+
+        <TableRow
+            android:id="@+id/r3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/dfm2lbl"
+                android:gravity="center"
+                android:text="@string/druckflaecheM2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/druckflaecheM2"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/r4"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/fmcm3lbl"
+                android:gravity="center"
+                android:text="@string/farbmengeCM3"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/farbmengeCM3"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/r5"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/fmLlbl"
+                android:gravity="center"
+                android:text="@string/farbmengeL"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/farbmengeL"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp" />
+
+
+        </TableRow>
+    </TableLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_send_black_24px"
+        android:id="@+id/farbverbrauch_help"
+        android:contentDescription="@string/arrow_farbverbrauch_help"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:layout_alignBottom="@+id/werteheader"
+        android:layout_alignStart="@+id/tabellenheader" />
+
+    <ImageButton
+        app:srcCompat="@drawable/ic_send_black_24px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/farbverbrauchbutton_help"
+        android:contentDescription="@string/arrow_farbvarbrauchbutton_help"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:layout_alignTop="@+id/berechnen"
+        android:layout_toStartOf="@+id/werteheader" />
+</RelativeLayout>
