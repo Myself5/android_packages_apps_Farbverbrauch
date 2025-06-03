@@ -2,15 +2,22 @@ package de.myself5.farbverbrauch.ui.recipe
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import de.myself5.farbverbrauch.R
 import de.myself5.farbverbrauch.databinding.FragmentRecipeBinding
 import org.json.JSONArray
+import kotlin.random.Random
 
 class RecipeFragment : Fragment() {
 
@@ -44,7 +51,7 @@ class RecipeFragment : Fragment() {
         _binding = FragmentRecipeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val recipe: AutoCompleteTextView = binding.rezept
+        val recipe: AutoCompleteTextView = binding.recipeInput
         var array = JSONArray()
         var recipeKeys: ArrayList<String> = ArrayList()
 
@@ -60,31 +67,105 @@ class RecipeFragment : Fragment() {
         }
 
         val content =
-            arrayOf(binding.farbe1, binding.farbe2, binding.farbe3, binding.farbe4, binding.farbe5)
+            arrayOf(
+                binding.colorContent1,
+                binding.colorContent2,
+                binding.colorContent3,
+                binding.colorContent4,
+                binding.colorContent5
+            )
         val amount =
-            arrayOf(binding.menge1, binding.menge2, binding.menge3, binding.menge4, binding.menge5)
+            arrayOf(
+                binding.colorAmount1,
+                binding.colorAmount2,
+                binding.colorAmount3,
+                binding.colorAmount4,
+                binding.colorAmount5
+            )
 
-        binding.showReceipt.setOnClickListener({
-            if (recipeKeys.contains(recipe.text.toString())) {
-                for (i in 0..<array.length()) {
-                    val obj = array.getJSONObject(i)
-                    if (obj.get(KEY_COLORNAME).equals(recipe.text.toString())) {
-                        for (i in 0..4) {
-                            content[i].text = obj.get(KEY_COLOR + (i + 1)).toString()
-                            amount[i].text = obj.get(KEY_AMOUNT + (i + 1)).toString()
-                        }
-                        break
-                    }
-                }
-            } else {
-                for (i in 0..4) {
-                    content[i].text = ""
-                    amount[i].text = ""
-                }
-            }
+        binding.recipeHelp.setOnClickListener({
+            recipe.setText(
+                array.getJSONObject(Random.nextInt(array.length())).get(KEY_COLORNAME).toString()
+            )
+            binding.recipeHelp.visibility = View.INVISIBLE
+            binding.recipeHelp.isClickable = false
+            binding.showReceiptHelp.visibility = View.VISIBLE
+            binding.showReceiptHelp.isClickable = true
         })
 
+        binding.showReceiptHelp.setOnClickListener({
+            binding.showReceipt.isPressed = true
+            binding.showReceipt.performClick()
+            binding.showReceiptHelp.visibility = View.INVISIBLE
+            binding.showReceiptHelp.isClickable = false
+            binding.showReceipt.isPressed = false
+        })
+
+        binding.showReceipt.setOnClickListener({
+            showContents(recipeKeys, array, content, amount)
+        })
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.help_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_showHelpArrows -> {
+                        binding.recipeHelp.visibility = View.VISIBLE
+                        binding.recipeHelp.isClickable = true
+                        binding.showReceiptHelp.visibility = View.INVISIBLE
+                        binding.showReceiptHelp.isClickable = false
+
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setMessage(R.string.help_dialog_text)
+                            .setPositiveButton(R.string.ok) { _, _ -> }
+                        val dialog = builder.create()
+                        dialog.show()
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }, viewLifecycleOwner)
+
         return root
+    }
+
+    private fun showContents(
+        recipeKeys: ArrayList<String>,
+        array: JSONArray,
+        content: Array<TextView>,
+        amount: Array<TextView>
+    ) {
+        if (recipeKeys.contains(binding.recipeInput.text.toString())) {
+            for (i in 0..<array.length()) {
+                val obj = array.getJSONObject(i)
+                if (obj.get(KEY_COLORNAME).equals(binding.recipeInput.text.toString())) {
+                    for (i in 0..4) {
+                        content[i].text = obj.get(KEY_COLOR + (i + 1)).toString()
+                        amount[i].text = obj.get(KEY_AMOUNT + (i + 1)).toString()
+                    }
+                    break
+                }
+            }
+        } else {
+            if (binding.recipeInput.text.isNotBlank()) {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(R.string.invalid_entry)
+                    .setPositiveButton(R.string.ok) { _, _ -> }
+                val dialog = builder.create()
+                dialog.show()
+            }
+            for (i in 0..4) {
+                content[i].text = ""
+                amount[i].text = ""
+            }
+        }
     }
 
     override fun onDestroyView() {

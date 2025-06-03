@@ -9,67 +9,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/werte"
+        android:text="@string/value_input"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="5dp"
-        android:id="@+id/werteheader"
+        android:id="@+id/value_header"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TableLayout
-        android:id="@+id/tabellenheader"
+        android:id="@+id/table_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_below="@+id/werteheader"
+        android:layout_below="@+id/value_header"
         android:layout_centerHorizontal="true">
 
         <TableRow
-            android:id="@+id/tabellenheaderr"
+            android:id="@+id/table_row_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <AutoCompleteTextView
-                android:id="@+id/gewebe"
+                android:id="@+id/fabric"
                 android:gravity="center"
                 android:layout_width="320dp"
                 android:layout_height="35dp"
                 android:background="@drawable/cell_shape"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:hint="@string/vGewebe" />
+                android:hint="@string/used_fabric" />
 
         </TableRow>
     </TableLayout>
     <TableLayout
-        android:id="@+id/wertetabelle"
+        android:id="@+id/value_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_below="@+id/tabellenheader"
+        android:layout_below="@+id/table_header"
         android:layout_centerHorizontal="true">
 
         <TableRow
-            android:id="@+id/r1"
+            android:id="@+id/value_row_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <EditText
-                android:id="@+id/anzDrucke"
+                android:id="@+id/print_amount"
                 android:gravity="center"
                 android:layout_width="160dp"
                 android:layout_height="35dp"
-                android:hint="@string/anzDrucke"
+                android:hint="@string/amount_prints"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/bedruckungsgrad"
+                android:id="@+id/print_degree"
                 android:gravity="center"
                 android:layout_width="160dp"
                 android:layout_height="35dp"
-                android:hint="@string/bedruckungsgrad"
+                android:hint="@string/print_degree"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -81,22 +81,22 @@
             android:layout_height="fill_parent" >
 
             <EditText
-                android:id="@+id/drucklaengeCM"
+                android:id="@+id/print_length_cm"
                 android:gravity="center"
                 android:layout_width="160dp"
                 android:layout_height="35dp"
-                android:hint="@string/drucklaengeCM"
+                android:hint="@string/print_length_cm"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/druckbreiteCM"
+                android:id="@+id/print_width_cm"
                 android:gravity="center"
                 android:layout_width="160dp"
                 android:layout_height="35dp"
-                android:hint="@string/druckbreiteCM"
+                android:hint="@string/print_width_cm"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -105,42 +105,42 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/berechnen"
+        android:id="@+id/calculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/wertetabelle"
+        android:layout_below="@+id/value_table"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="@string/berechnen" />
+        android:text="@string/calculate" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/ergebnis"
-        android:id="@+id/ergebnisheader"
-        android:layout_below="@+id/berechnen"
+        android:text="@string/result"
+        android:id="@+id/result_header"
+        android:layout_below="@+id/calculate"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="40dp" />
 
     <TableLayout
-        android:id="@+id/ergebnistabelle"
+        android:id="@+id/result_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_below="@+id/ergebnisheader"
+        android:layout_below="@+id/result_header"
         android:layout_centerHorizontal="true">
 
         <TableRow
-            android:id="@+id/r3"
+            android:id="@+id/results_row_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/dfm2lbl"
+                android:id="@+id/print_area_desc"
                 android:gravity="center"
-                android:text="@string/druckflaecheM2"
+                android:text="@string/print_area_m2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="200dp"
                 android:layout_height="35dp"
@@ -148,7 +148,7 @@
                 android:padding="5dp" />
 
             <TextView
-                android:id="@+id/druckflaecheM2"
+                android:id="@+id/print_area"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="120dp"
@@ -163,9 +163,9 @@
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/fmcm3lbl"
+                android:id="@+id/color_amount_cm3_desc"
                 android:gravity="center"
-                android:text="@string/farbmengeCM3"
+                android:text="@string/color_amount_cm3"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="200dp"
                 android:layout_height="35dp"
@@ -173,7 +173,7 @@
                 android:padding="5dp" />
 
             <TextView
-                android:id="@+id/farbmengeCM3"
+                android:id="@+id/color_amount_cm3"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="120dp"
@@ -188,9 +188,9 @@
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/fmLlbl"
+                android:id="@+id/color_amount_l_desc"
                 android:gravity="center"
-                android:text="@string/farbmengeL"
+                android:text="@string/color_amount_l"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="200dp"
                 android:layout_height="35dp"
@@ -198,7 +198,7 @@
                 android:padding="5dp" />
 
             <TextView
-                android:id="@+id/farbmengeL"
+                android:id="@+id/color_amount_l"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="120dp"
@@ -214,21 +214,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_send_black_24px"
-        android:id="@+id/farbverbrauch_help"
-        android:contentDescription="@string/arrow_farbverbrauch_help"
+        android:id="@+id/value_input_help"
+        android:contentDescription="@string/desc_color_usage_info_help_button"
         android:visibility="invisible"
         android:clickable="false"
-        android:layout_alignBottom="@+id/werteheader"
-        android:layout_alignStart="@+id/tabellenheader" />
+        android:layout_alignTop="@+id/value_header"
+        android:layout_alignBottom="@+id/value_header"
+        android:layout_toStartOf="@+id/value_header"
+        android:layout_marginEnd="10dp"
+        android:background="@null" />
 
     <ImageButton
         app:srcCompat="@drawable/ic_send_black_24px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/farbverbrauchbutton_help"
-        android:contentDescription="@string/arrow_farbvarbrauchbutton_help"
+        android:id="@+id/calculate_button_help"
+        android:contentDescription="@string/desc_color_usage_info_button_help_button"
         android:visibility="invisible"
         android:clickable="false"
-        android:layout_alignTop="@+id/berechnen"
-        android:layout_toStartOf="@+id/werteheader" />
+        android:layout_alignTop="@+id/calculate"
+        android:layout_alignBottom="@+id/calculate"
+        android:layout_toStartOf="@+id/calculate"
+        android:layout_marginEnd="10dp"
+        android:background="@null" />
 </RelativeLayout>

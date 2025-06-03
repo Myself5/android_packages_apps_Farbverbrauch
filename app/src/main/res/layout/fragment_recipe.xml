@@ -4,20 +4,20 @@
     android:layout_height="match_parent" tools:context=".ui.recipe.RecipeFragment">
 
     <TextView
-        android:id="@+id/rezepttext"
+        android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="@string/rezeptname"
+        android:text="@string/recipe_name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <AutoCompleteTextView
-        android:id="@+id/rezept"
+        android:id="@+id/recipe_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/rezepttext"
+        android:layout_below="@id/header"
         android:ems="10" />
 
     <Button
@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/rezept"
-        android:text="@string/zeigeR" />
+        android:layout_below="@id/recipe_input"
+        android:text="@string/show_recipe" />
 
     <TableLayout
-        android:id="@+id/wertetabelle"
+        android:id="@+id/value_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -39,39 +39,39 @@
         android:layout_marginTop="40dp">
 
         <TableRow
-            android:id="@+id/tabellenheader"
+            android:id="@+id/table_header"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe"
+                android:id="@+id/color_content_header"
                 android:gravity="center"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="@string/farbe"
+                android:text="@string/color"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/menge"
+                android:id="@+id/amount_header"
                 android:gravity="center"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="@string/menge"
+                android:text="@string/amount"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/zutat1"
+            android:id="@+id/color_1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe1"
+                android:id="@+id/color_content_1"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/menge1"
+                android:id="@+id/color_amount_1"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,12 +91,12 @@
                 android:layout_gravity="center_vertical" />
         </TableRow>
         <TableRow
-            android:id="@+id/zutat2"
+            android:id="@+id/color_2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe2"
+                android:id="@+id/color_content_2"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/menge2"
+                android:id="@+id/color_amount_2"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,12 +116,12 @@
                 android:layout_gravity="center_vertical" />
         </TableRow>
         <TableRow
-            android:id="@+id/zutat3"
+            android:id="@+id/color_3"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe3"
+                android:id="@+id/color_content_3"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/menge3"
+                android:id="@+id/color_amount_3"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,12 +141,12 @@
                 android:layout_gravity="center_vertical" />
         </TableRow>
         <TableRow
-            android:id="@+id/zutat4"
+            android:id="@+id/color_4"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe4"
+                android:id="@+id/color_content_4"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/menge4"
+                android:id="@+id/color_amount_4"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,12 +166,12 @@
                 android:layout_gravity="center_vertical" />
         </TableRow>
         <TableRow
-            android:id="@+id/zutat5"
+            android:id="@+id/color_5"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
             <TextView
-                android:id="@+id/farbe5"
+                android:id="@+id/color_content_5"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/menge5"
+                android:id="@+id/color_amount_5"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,22 +197,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_send_black_24px"
-        android:id="@+id/rezepthelp"
-        android:contentDescription="@string/arrow_rezeptehelp"
+        android:id="@+id/recipe_help"
+        android:contentDescription="@string/desc_recipe_help_button"
         android:visibility="invisible"
         android:clickable="false"
-        android:layout_alignBottom="@+id/rezept"
-        android:layout_toStartOf="@+id/rezept" />
+        android:layout_alignTop="@+id/recipe_input"
+        android:layout_alignBottom="@+id/recipe_input"
+        android:layout_toStartOf="@+id/recipe_input"
+        android:layout_marginEnd="10dp"
+        android:background="@null" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_send_black_24px"
-        android:id="@+id/clickhelp"
-        android:contentDescription="@string/arrow_rezeptebuttonhelp"
+        android:id="@+id/show_receipt_help"
+        android:contentDescription="@string/desc_show_recipe_help_button"
         android:visibility="invisible"
         android:clickable="false"
         android:layout_alignTop="@+id/show_receipt"
-        android:layout_alignStart="@+id/rezepthelp" />
+        android:layout_alignBottom="@+id/show_receipt"
+        android:layout_toStartOf="@+id/show_receipt"
+        android:layout_marginEnd="10dp"
+        android:background="@null" />
 
 </RelativeLayout>
