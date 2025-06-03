@@ -213,7 +213,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_send_black_24px"
+        app:srcCompat="@drawable/ic_send_24px"
         android:id="@+id/value_input_help"
         android:contentDescription="@string/desc_color_usage_info_help_button"
         android:visibility="invisible"
@@ -225,7 +225,7 @@
         android:background="@null" />
 
     <ImageButton
-        app:srcCompat="@drawable/ic_send_black_24px"
+        app:srcCompat="@drawable/ic_send_24px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/calculate_button_help"

@@ -196,7 +196,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_send_black_24px"
+        app:srcCompat="@drawable/ic_send_24px"
         android:id="@+id/recipe_help"
         android:contentDescription="@string/desc_recipe_help_button"
         android:visibility="invisible"
@@ -210,7 +210,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_send_black_24px"
+        app:srcCompat="@drawable/ic_send_24px"
         android:id="@+id/show_receipt_help"
         android:contentDescription="@string/desc_show_recipe_help_button"
         android:visibility="invisible"
